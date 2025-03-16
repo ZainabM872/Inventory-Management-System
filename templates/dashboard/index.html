@@ -3,18 +3,26 @@
 {% extends 'partials/base.html' %} 
  -->
 
- {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Initial Website Page</title>
-    <link rel="stylesheet" href="{% static '/style.css' %}">
+    <title>Login Page - first screen the user sees</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" /> <!--import for icons-->
+    <script src="script.js"></script>
 </head>
 <body>
-    <h1>
-        This will be the log in page!
-    </h1>
+    <!--creating the login form-->
+    <div class ="form-container">
+        <i class="uil uil-times"> <!--using the x icon-->
+            <div class="login_form">
+                <form action="#">
+                    <h2>Login</h2>
+                </form>
+            </div>
+        </i>
+    </div>
 </body>
 </html>
