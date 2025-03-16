@@ -1,0 +1,20 @@
+<!-- 
+ If we are using a template from the base.html we can just call it using this line
+{% extends 'partials/base.html' %} 
+ -->
+
+ {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initial Website Page</title>
+    <link rel="stylesheet" href="{% static '/style.css' %}">
+</head>
+<body>
+    <h1>
+        This will be the log in page!
+    </h1>
+</body>
+</html>
