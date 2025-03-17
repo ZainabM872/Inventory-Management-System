@@ -1,0 +1,46 @@
+<!-- 
+ If we are using a template from the base.html we can just call it using this line 
+ -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page - first screen the user sees</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <script src="{% static 'login.js' %}"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=fingerprint" />
+
+</head>
+<body>
+    <!-- creating the login form -->
+     <section class="home">
+        <div class="form_container">
+        <i class="uil uil-times"> </i>
+            <div class="login_form">
+                <form action="#">
+                    <h2>Login</h2>
+                    <div class="input box">
+                        <i class="uil uil-user"></i>
+                        <input type="text" placeholder="Enter your name" required>
+                    </div>
+                    <div class="input box">
+                        <i class="uil uil-lock"></i>
+                        <i class="uil uil-eye-slash pw_hidden"></i>
+                        <input type="password" placeholder="Enter your password" required>
+                    </div>
+                    <div class="input box">
+                        <span class="material-symbols-outlined">fingerprint</span>
+                        <input type="text" placeholder="Enter your user ID" required>
+                    </div>
+                </form>
+            </div>
+        </div>
+     </section>
+    
+</body>
+</html>

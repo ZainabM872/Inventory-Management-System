@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-# Create your views here.
-
 # when running the server, this will be the initial page
 def index(request):
-    return render(request, 'dashboard/index.html')
+    return render(request, 'dashboard/login.html')
 
 # if we add '/staff' to the url of the page, it redirects to staff page
 def staff(request): 

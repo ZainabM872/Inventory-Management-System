@@ -1,0 +1,23 @@
+// stlying for the login form
+.home{
+    position: relative;
+    height: 200vh;
+    width: 100%;
+
+}
+
+.form_container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    background: #ff44ff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+h2 {
+    color: pink;
+}
