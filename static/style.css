@@ -1,29 +1,31 @@
 .home {
     display: flex;
-    justify-content: center; /* Horizontally center the form */
-    align-items: center; /* Vertically center the form */
-    height: 100vh; /* Full viewport height */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     width: 100%;
+    background-color: #f5f5f5; /* Light neutral background */
 }
 
 .form_container {
     width: 100%;
-    max-width: 400px; /* Set the maximum width for the form */
-    padding: 25px;
-    background: pink;
+    max-width: 400px;
+    padding: 30px;
+    background: #ffffff; /* Clean white form background */
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
 }
 
 .login_form h2 {
-    text-align: center; /* Center the heading */
+    text-align: center;
+    color: #333333; /* Dark text for the header */
 }
 
 .input_box {
     position: relative;
     margin-top: 20px;
     width: 100%;
-    height: 40px;
+    height: 45px;
 }
 
 .input_box input {
@@ -31,26 +33,52 @@
     width: 90%;
     border: none;
     outline: none;
-    border-bottom: 1.5px solid #aaaaaa;
+    border-bottom: 1.5px solid #d1d1d1; /* Soft gray border */
     padding-left: 30px;
-    padding-right: 30px;
+    padding-right: 20px;
+    color: #333333; /* Dark text */
+    font-size: 16px;
+}
+
+.input_box input:focus {
+    border-bottom: 1.5px solid #003366; /* Deep blue on focus */
 }
 
 .input_box i, .input_box span.fingerprint {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 20px;
+    font-size: 18px;
+    color: #003366; /* Deep blue for icons */
 }
 
-.input_box i.lock {
-    left: 10px;
+.input_box i.lock, 
+.input_box i.user, 
+.input_box span.fingerprint {
+    padding-left: 8px;
 }
 
 .input_box i.pw_hidden {
     right: 10px;
+    color: #b5b5b5; /* Soft gray for the eye icon */
 }
 
-.input_box span.fingerprint {
-    left: 10px;
+.login_button {
+    width: 100%;
+    padding: 12px;
+    background-color: #003366; /* Deep blue button */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.login_button:hover {
+    background-color: #002244; /* Darker blue on hover */
+}
+
+.login_button:active {
+    background-color: #001a33; /* Even darker blue on click */
 }
