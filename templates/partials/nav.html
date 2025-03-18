@@ -14,10 +14,10 @@
 
     <link rel="stylesheet" href="{% static '/navstyle.css' %}">
      <!-- <link rel="stylesheet" href="style.css"> -->
-
 </head>
 <body>
-    <nav class="navbar bg-dark border-bottom border-body navbar-expand-md bg-body-tertiary" data-bs-theme="dark">
+    <!-- Navbar -->
+    <nav class="navbar custom-navbar navbar-expand-md bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand me-auto" href="#">CZAventory</a>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -45,13 +45,15 @@
                 </div>
             </div>
                 <a href="#" class="logout-button">Logout</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
         </div>
     </nav>
+    <!-- End of Navbar -->
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

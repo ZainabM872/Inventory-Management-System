@@ -1,8 +1,16 @@
-.navbar{
+.navbar {
     height: 80px;
     margin: 10px;
     border-radius: 16px;
     padding: 0.5rem;
+}
+
+.custom-navbar {
+    background-color: #002244 !important; /* Replace with your desired color */
+}
+
+body {
+    background-color: #f5f5f5;
 }
 
 .logout-button {
@@ -22,6 +30,10 @@
 .navbar-toggler {
     border: none;
     font-size: 1.25rem;
+}
+
+.offcanvas{
+    background-color: #002244;
 }
 
 .navbar-toggler:focus, .btn-close:focus {
@@ -49,7 +61,7 @@
         height: 2px;
         background-color: #ffffff;
         visibility: hidden;
-        transition: 0.5 ease-in-out;
+        transition: width 0.1s ease-in-out;
     }
     
     .nav-link:hover::before, .nav-link.active::before {

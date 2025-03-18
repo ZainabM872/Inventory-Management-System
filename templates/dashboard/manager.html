@@ -1,14 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Page</title>
+    <title>Manager Page</title>
+    <link rel="stylesheet" href="{% static 'basepage.css' %}">
 </head>
 <body>
     {% include 'partials/nav.html' %}
-    <h1>
-        This will be the manager page!
-    </h1>
+    <section class="home">
+        <h1>
+            This will be the manager page!
+        </h1>
+    </section>
 </body>
 </html>
