@@ -9,10 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
             passwordInput.type = 'text';  // Show the password
             eyeIcon.classList.remove('uil-eye-slash');  // Remove the closed-eye icon
             eyeIcon.classList.add('uil-eye');  // Add the open-eye icon
+            eyeIcon.style.color = '#003366' // chnage the icon to blue when pressed
         } else {
             passwordInput.type = 'password';  // Hide the password
             eyeIcon.classList.remove('uil-eye');  // Remove the open-eye icon
             eyeIcon.classList.add('uil-eye-slash');  // Add the closed-eye icon
+            eyeIcon.style.color = '#b5b5b5' //change the colour back to gray
         }
     });
     
