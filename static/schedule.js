@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const today = new Date(); // get todays date to start the calendar from
     const currentYear = today.getFullYear(); // get current year
     const currentMonth = today.getMonth(); // get current month
-
+    
     const monthNames = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
