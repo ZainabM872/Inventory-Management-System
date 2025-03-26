@@ -23,4 +23,23 @@ document.addEventListener("DOMContentLoaded", function () {
         calendar.appendChild(emptyCell);
     }
 
+    for (let day = 1; day <= daysInMonth; day++) {
+        let dayCell = document.createElement("div"); // for each day, create a new calendar cell
+        dayCell.classList.add("calendar-day");
+        dayCell.textContent = day; // set the current day as the content in the cell
+
+        if (day === today.getDate()) {
+            dayCell.classList.add("today"); //set the day to today if its the current date
+        }
+
+        // Randomly assign 0-3 colored dots for staff members
+        let numDots = Math.floor(Math.random() * 4);
+        for (let j = 0; j < numDots; j++) {
+            let dot = document.createElement("div");
+            dot.classList.add("dot", colors[Math.floor(Math.random() * colors.length)]);
+            dayCell.appendChild(dot);
+        }
+
+        calendar.appendChild(dayCell);
+    }
 });
