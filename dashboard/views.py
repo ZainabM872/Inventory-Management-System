@@ -14,3 +14,11 @@ def manager(request):
     return render(request, 'dashboard/manager.html')
 
 
+
+# if we add '/schedule' to the url of the page, it redirects to schedule page
+def schedule(request):
+    return render(request, 'dashboard/schedule.html')
+
+
+
+
