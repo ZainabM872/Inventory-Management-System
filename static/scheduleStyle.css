@@ -1,4 +1,5 @@
-@import url(`https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap`);
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 *{
     margin: 0;
@@ -17,7 +18,7 @@ body{
 
 .wrapper{
     background: #ffffff;
-    width: 450px;
+    width: 750px;
     border-radius: 10px;
 }
 
@@ -27,8 +28,66 @@ body{
     justify-content: space-between;
     padding: 25px 30px 10px;
 }
+
+
+header .current-date{
+    font-size: 1.45rem;
+    font-weight: 500;
+}
+
+header .icons span{
+    height: 30px;
+    width: 30px;
+    background: #f2f2f2;
+    margin: 0 1px;
+    font-size: 1.9rem;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+header .icons span:hover{
+    background: #e6e6e6;
+}
+header .icons span:last-child{
+    margin-right: -10px;
+}
+
+.calendar{
+    padding:20px;
+}
 .calendar ul{
     display: flex;
     list-style: none;
     flex-wrap: wrap;
+    text-align: center;
+}
+
+.calendar ul li{
+    width: calc(100% / 7);
+}
+
+.calendar .weeks li{
+    font-weight: 500;
+}
+
+.calendar .days{
+    margin-bottom: 20px;
+}
+
+.calendar .days li{
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.calendar ul li:: before{
+    position: absolute; 
+    content: "";
+    height: 40px;
+    width: 40px;    
+    top:50%; 
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f2f2f2;
 }
