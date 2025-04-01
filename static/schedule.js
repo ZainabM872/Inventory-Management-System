@@ -11,8 +11,17 @@ document.addEventListener("DOMContentLoaded", function() {
         8: 3,  // Day 8 has 3 dots
         9: 2,  // Day 9 has 2 dots
         10: 1, // Day 10 has 1 dot
-        // Add more as needed...
     };
+
+    const colours = [
+        '#d28a8c',  // Red
+        '#a7c8b4',  // Dark Green
+        '#e0d59d',  // Dark Yellow
+        '#e0a1b6',  // Dark Pink
+        '#a1c3d5',  // Dark Blue
+        '#e6b69f',  // Dark Orange
+        '#bcb0d5',  // Dark Purple
+    ];
 
     // Loop through each day in the calendar
     const days = document.querySelectorAll('.calendar .days li');
@@ -31,8 +40,13 @@ document.addEventListener("DOMContentLoaded", function() {
             // Add the dots to the div
             for (let i = 0; i < numDots; i++) {
                 const dot = document.createElement('span');
-                dot.classList.add('material-symbols-rounded');
-                dot.textContent = 'fiber_manual_record';  // Dot symbol
+                dot.style.display = 'inline-block';  // Make sure it behaves like an inline element
+                dot.style.width = '10px';  // Set the diameter of the circle
+                dot.style.height = '10px';  // Set the diameter of the circle
+                dot.style.borderRadius = '50%';  // Make it circular
+                dot.style.backgroundColor = colours[Math.floor(Math.random() * colours.length)];  // Set the color randomly
+                dot.style.fontSize = '15px';  // Set the font size
+                dot.style.marginRight = '5px';  // Space between circles
                 dotsDiv.appendChild(dot);
             }
 
