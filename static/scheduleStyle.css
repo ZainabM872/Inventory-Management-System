@@ -110,3 +110,9 @@ header .icons span:last-child{
 .days li.today{
     color: #f2f2f2;
 }
+
+/* Style for the dots */
+.material-symbols-rounded {
+    font-size: 5px; /* size of the dots */
+    color: blue; /* color of the dots */
+}
