@@ -1,45 +1,43 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const calendar = document.getElementById("calendar"); // get the calendar div
-    const monthYear = document.getElementById("month-year"); // get the month-year div
+document.addEventListener("DOMContentLoaded", function() {
+    // Number of dots to display for each day (you can modify these values)
+    const dotsData = {
+        1: 2,  // Day 1 has 2 dots
+        2: 1,  // Day 2 has 1 dot
+        3: 3,  // Day 3 has 3 dots
+        4: 1,  // Day 4 has 1 dot
+        5: 2,  // Day 5 has 2 dots
+        6: 0,  // Day 6 has no dots
+        7: 4,  // Day 7 has 4 dots
+        8: 3,  // Day 8 has 3 dots
+        9: 2,  // Day 9 has 2 dots
+        10: 1, // Day 10 has 1 dot
+        // Add more as needed...
+    };
 
-    const today = new Date(); // get todays date to start the calendar from
-    const currentYear = today.getFullYear(); // get current year
-    const currentMonth = today.getMonth(); // get current month
-    
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ] // store the months in an array
+    // Loop through each day in the calendar
+    const days = document.querySelectorAll('.calendar .days li');
+    days.forEach(day => {
+        // Get the day number from the text content (skip inactive days)
+        const dayNumber = parseInt(day.textContent.trim());
+        
+        if (!isNaN(dayNumber)) {
+            // Create a div for dots
+            const dotsDiv = document.createElement('div');
+            dotsDiv.classList.add('dots');
 
-    // Update header with current month and year
-    monthYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            // Get the number of dots to display for this day
+            const numDots = dotsData[dayNumber] || 0;
 
-    // Colors for staff members
-    const colors = ["red", "blue", "green", "yellow", "purple"];
+            // Add the dots to the div
+            for (let i = 0; i < numDots; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('material-symbols-rounded');
+                dot.textContent = 'fiber_manual_record';  // Dot symbol
+                dotsDiv.appendChild(dot);
+            }
 
-    // Generate calendar days
-    for (let i = 0; i < firstDay; i++) {
-        let emptyCell = document.createElement("div");
-        calendar.appendChild(emptyCell);
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-        let dayCell = document.createElement("div"); // for each day, create a new calendar cell
-        dayCell.classList.add("calendar-day");
-        dayCell.textContent = day; // set the current day as the content in the cell
-
-        if (day === today.getDate()) {
-            dayCell.classList.add("today"); //set the day to today if its the current date
+            // Append the dots div to the current day
+            day.appendChild(dotsDiv);
         }
-
-        // Randomly assign 0-3 colored dots for staff members
-        let numDots = Math.floor(Math.random() * 4);
-        for (let j = 0; j < numDots; j++) {
-            let dot = document.createElement("div");
-            dot.classList.add("dot", colors[Math.floor(Math.random() * colors.length)]);
-            dayCell.appendChild(dot);
-        }
-
-        calendar.appendChild(dayCell);
-    }
+    });
 });
