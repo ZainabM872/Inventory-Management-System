@@ -11,4 +11,5 @@
 ### Zainab
 - [ ] Set up the db on your local
 - [ ] Link log in page to db user data for proper authentication
+- [ ] Finish schedule front end
 
