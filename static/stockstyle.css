@@ -1,0 +1,59 @@
+body {
+    background-color: #f8f9fa !important;
+    font-family: 'Segoe UI', sans-serif !important;
+}
+
+h1 {
+    color: #2c3e50 !important;
+    font-size: 2.5rem !important;
+    font-weight: bold !important;
+    text-transform: none !important;
+    margin-bottom: 2rem !important;
+}
+
+.table {
+    background-color: white !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+.btn-add-ingredient {
+    background-color: #28a745 !important;
+    /* Bootstrap green */
+    color: #fff !important;
+    font-size: 14px !important;
+    padding: 8px 20px !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.btn-add-ingredient:hover {
+    background-color: #218838 !important;
+}
+
+.status {
+    display: inline-block !important;
+    padding: 4px 10px !important;
+    border-radius: 12px !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    color: white !important;
+    text-align: center !important;
+    min-width: 100px !important;
+}
+
+.in-stock {
+    background-color: #28a745 !important;
+}
+
+.low-stock {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.out-stock {
+    background-color: #dc3545 !important;
+}
