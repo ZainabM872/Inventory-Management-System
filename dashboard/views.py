@@ -9,13 +9,17 @@ def index(request):
         password = request.POST.get('password')
         userID = request.POST.get('user_id')
         user = authenticate(request, username=username, password=password, user_id=userID)
-        
+
         # authenticate function checks if the user is valid
         if user is not None:
             login(request, user)
-            return redirect('dashboard/login.html')
+            if(user.is_staff):
+                return redirect('dashboard/staff.html')
+            elif(user.is_manager):
+                return redirect('dashboard/manager.html')
+            #return redirect('dashboard/login.html')
         else:
-            return redirect('dashboard/login.html', {
+            return redirect('dashboard-login', {
                 'error': 'Invalid username or password'
             })
 
