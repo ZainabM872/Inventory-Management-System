@@ -22,28 +22,33 @@
      <section class="home">
         <div class="form_container">
             <div class="login_form">
-                <form action="#">
+                <form method="POST" action="{% url 'dashboard-login' %}">
+                    {% csrf_token %}
                     <h2 class="login">Login</h2>
                     <!--enter username-->
                     <div class="input_box">
                         <i class="uil uil-user user"></i>
-                        <input type="text" placeholder="Enter your name" required>
+                        <input type="text" name="username" placeholder="Enter your name" required>
                     </div>
                     <!--Enter password-->
                     <div class="input_box">
-                        <input class="password-input" type="password" placeholder="Enter your password" required>
+                        <input class="password-input" name="password" type="password" placeholder="Enter your password" required>
                         <i class="uil uil-lock lock"></i>
                         <i class="uil uil-eye-slash pw_hidden"></i><!-- Closed eye icon -->
                     </div>
                     <!--Enter user id-->
                     <div class="input_box">
                         <span class="material-symbols-outlined fingerprint">fingerprint</span>
-                        <input type="text" placeholder="Enter your user ID" required>
+                        <input type="text" name="user_id" placeholder="Enter your user ID" required>
                     </div>
                     <!-- Login button -->
                     <div class="input_box">
                         <button type="submit" class="login_button">Login</button>
                     </div>
+
+                    {% if error %}
+                    <p style="color: red;">{{ error }}</p>
+                    {% endif %}
                 </form>
             </div>
         </div>
