@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -19,9 +20,8 @@ def index(request):
                 return redirect('dashboard/manager.html')
             #return redirect('dashboard/login.html')
         else:
-            return redirect('dashboard-login', {
-                'error': 'Invalid username or password'
-            })
+            messages.error(request, 'Invalid username or password')
+            return redirect('dashboard-login')
 
     return render(request, 'dashboard/login.html')
 
