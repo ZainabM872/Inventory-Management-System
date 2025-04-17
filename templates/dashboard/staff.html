@@ -2,12 +2,99 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Page</title>
+    <title>Weekly Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .shift {
+            padding: 0.5rem;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .morning { background-color: #28a745; }
+        .afternoon { background-color: #ffc107; color: black; }
+        .evening { background-color: #dc3545; }
+        .off { color: #888; font-style: italic; }
+    </style>
 </head>
 <body>
-    <h1>
-        This will be the staff page!
-    </h1>
+
+<h2>Weekly schedule for {{user.name}} <!--get user.name from views: create a user object--></h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Shift</th>
+        </tr>
+    </thead>
+    <tbody id="schedule-body">
+        <!-- JavaScript will populate this -->
+    </tbody>
+</table>
+
+<script>
+    const shifts = {
+        "Monday": "morning",
+        "Tuesday": "afternoon",
+        "Wednesday": "evening",
+        "Thursday": "off",
+        "Friday": "morning",
+        "Saturday": "evening",
+        "Sunday": "off"
+    };
+
+    const scheduleBody = document.getElementById('schedule-body');
+
+    for (const [day, shift] of Object.entries(shifts)) {
+        const row = document.createElement('tr');
+
+        const dayCell = document.createElement('td');
+        dayCell.textContent = day;
+        row.appendChild(dayCell);
+
+        const shiftCell = document.createElement('td');
+        if (shift === 'off') {
+            shiftCell.textContent = 'Off';
+            shiftCell.classList.add('off');
+        } else {
+            shiftCell.innerHTML = `<span class="shift ${shift}">${shift.charAt(0).toUpperCase() + shift.slice(1)} Shift</span>`;
+        }
+        row.appendChild(shiftCell);
+
+        scheduleBody.appendChild(row);
+    }
+</script>
+
 </body>
 </html>
