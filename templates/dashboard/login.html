@@ -46,9 +46,11 @@
                         <button type="submit" class="login_button">Login</button>
                     </div>
 
-                    <div>
-                        <p>{{ message }}</p> 
-                    </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                    {% endif %}
                 </form>
             </div>
         </div>
