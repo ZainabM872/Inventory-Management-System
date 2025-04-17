@@ -3,16 +3,18 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 
+from dashboard.models import *
+
 # when running the server, this will be the initial page
 def index(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        userID = request.POST.get('user_id')
-        user = authenticate(request, username=username, password=password, user_id=userID)
-
+        #user = authenticate(request, username=username, password=password)
+        user = User.objects.filter(name=username, password=password).first()
         # authenticate function checks if the user is valid
-        if user is not None:
+        if user:
+        '''if user is not None:
             login(request, user)
             if(user.is_staff):
                 return redirect('dashboard/staff.html')
@@ -21,7 +23,7 @@ def index(request):
             #return redirect('dashboard/login.html')
         else:
             messages.error(request, 'Invalid username or password')
-            return redirect('dashboard-login')
+            return redirect('dashboard-login')'''
 
     return render(request, 'dashboard/login.html')
 
