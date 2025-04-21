@@ -38,4 +38,7 @@ def stock(request):
 def suppliers(request):
     return render(request, 'dashboard/suppliers.html')
 
+def orders(request):
+    return render(request, 'dashboard/orders.html')
+
 

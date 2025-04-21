@@ -36,7 +36,7 @@
                             <a class="nav-link {% if request.path == '/suppliers/' %}active{% endif %}" href="{% url 'suppliers-page' %}">Suppliers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Orders</a>
+                            <a class="nav-link {% if request.path == '/orders/' %}active{% endif %}" href="{% url 'orders-page' %}">Orders</a>
                         </li>
                     </ul>
                 </div>
