@@ -1,0 +1,65 @@
+{% extends "partials/base.html" %}
+{% load static %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'stockstyle.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Ingredient Stock</h1>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="#" class="btn btn-success">+ Add Ingredient</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ingredient</th>
+                <th>Quantity</th>   
+                <th>Unit</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Bun</td>
+                <td>10</td>
+                <td>pcs</td>
+                <td><span class="status in-stock">In Stock</span></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Cheese Slice</td>
+                <td>4</td>
+                <td>pcs</td>
+                <td><span class="status low-stock">Low Stock</span></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Patty</td>
+                <td>0</td>
+                <td>pcs</td>
+                <td><span class="status out-stock">Out of Stock</span></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Lettuce</td>
+                <td>150</td>
+                <td>g</td>
+                <td><span class="status in-stock">In Stock</span></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Tomato</td>
+                <td>20</td>
+                <td>g</td>
+                <td><span class="status low-stock">Low Stock</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

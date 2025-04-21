@@ -1,0 +1,59 @@
+body {
+    background-color: #f8f9fa ;
+    font-family: 'Segoe UI', sans-serif ;
+}
+
+h1 {
+    color: #2c3e50 ;
+    font-size: 2.5rem ;
+    font-weight: bold ;
+    text-transform: none ;
+    margin-bottom: 2rem ;
+}
+
+.table {
+    background-color: white ;
+    border-radius: 12px ;
+    overflow: hidden ;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) ;
+}
+
+.btn-add-ingredient {
+    background-color: #28a745 ;
+    /* Bootstrap green */
+    color: #fff ;
+    font-size: 14px ;
+    padding: 8px 20px ;
+    border-radius: 50px ;
+    text-decoration: none ;
+    font-weight: 500 ;
+    transition: background-color 0.3s ease ;
+}
+
+.btn-add-ingredient:hover {
+    background-color: #218838 ;
+}
+
+.status {
+    display: inline-block ;
+    padding: 4px 10px ;
+    border-radius: 12px ;
+    font-size: 0.85rem ;
+    font-weight: 500 ;
+    color: white ;
+    text-align: center ;
+    min-width: 100px ;
+}
+
+.in-stock {
+    background-color: #28a745 ;
+}
+
+.low-stock {
+    background-color: #ffc107 ;
+    color: #212529 ;
+}
+
+.out-stock {
+    background-color: #dc3545 ;
+}

@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'inventory_management_system.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'czaventory_db',
+        'USER': 'your_mysql_username',                 # change this to your user name
+        'PASSWORD': 'your_user_password',              # change this to your password
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 

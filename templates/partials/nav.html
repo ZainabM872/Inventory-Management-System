@@ -13,7 +13,6 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{% static '/navstyle.css' %}">
-     <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 <body>
     <!-- Navbar -->
@@ -22,18 +21,16 @@
             <a class="navbar-brand me-auto" href="#">CZAventory</a>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" 
-                    id="offcanvasNavbarLabel">CZAventory</h5> 
-                    <button type="button" class="btn-close" 
-                    data-bs-dismiss="offcanvas"aria-label="Close"></button>
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">CZAventory</h5> 
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-center flex-grow-1 pe-3 gap-2">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                            <a class="nav-link {% if request.path == '/manager/' %}active{% endif %}" href="{% url 'dashboard-manager' %}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard-staff' %}">Stock</a>
+                            <a class="nav-link {% if request.path == '/stock/' %}active{% endif %}" href="{% url 'stock-page' %}">Stock</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Suppliers</a>
@@ -44,12 +41,12 @@
                     </ul>
                 </div>
             </div>
-                <a href="#" class="logout-button">Logout</a>
-                <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
+            <a href="#" class="logout-button">Logout</a>
+            <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-                </button>
+            </button>
         </div>
     </nav>
     <!-- End of Navbar -->
@@ -59,5 +56,4 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>
-
 </html>
