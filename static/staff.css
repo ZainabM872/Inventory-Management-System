@@ -1,3 +1,4 @@
+/* Base Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f9fafb; /* soft neutral background */
@@ -5,17 +6,50 @@ body {
     margin: 0;
 }
 
-h2 {
-    text-align: center;
+/* Header Layout with Flexbox */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 2rem;
+}
+
+/* Title Styling */
+h2 {
     color: #003366; /* deep blue title */
+    margin: 0;
 }
 
-.calendar-container {
-    max-width: 800px;
+/* Button Styling */
+.calendar-btn {
+    padding: 12px 24px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.calendar-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Calendar Container Styling */
+.container {
+    max-width: 900px;
     margin: 0 auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
+/* Day and Shift Info Styles */
 .day-row {
     display: flex;
     align-items: center;
@@ -32,7 +66,7 @@ h2 {
     padding-right: 10px;
 }
 
-.day-info .day {
+.day-info .day, .day-info .date {
     font-size: 1rem;
     color: #003f7f; /* soft blue for day name */
 }
@@ -53,5 +87,11 @@ h2 {
 .shift-info span {
     display: block;
     margin-bottom: 4px;
+}
 
+/* Center the calendar container */
+.calendar-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
 }

@@ -85,8 +85,8 @@ header .icons span:last-child{
 .calendar .days li::before{
     position: absolute; 
     content: "";
-    height: 40px;
-    width: 40px;    
+    height: 60px;
+    width: 60px;    
     top:50%; 
     bottom: 50%;
     left: 50%;

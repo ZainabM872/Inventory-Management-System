@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <title>Weekly Calendar View</title>
     <link rel="stylesheet" href="{% static 'staff.css' %}">
-
 </head>
 <body>
-    <h2>Schedule: April 13 – 19</h2>
+    <header class="header">
+        <h2>Schedule: April 13 – 19</h2>
+        <!-- Button to navigate to Calendar View -->
+        <button class="calendar-btn" onclick="window.location.href='{% url 'dashboard-schedule' %}';">Calendar View</button>
+    </header>
+    
     <div class="calendar-container" id="calendar-container"></div>
 
     <script src="{% static 'staff.js' %}"></script>
