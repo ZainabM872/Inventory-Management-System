@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.db.models import Prefetch
+from decimal import Decimal
 
 from dashboard.models import *
 
@@ -53,6 +54,51 @@ def suppliers(request):
     return render(request, 'dashboard/suppliers.html', {'suppliers': suppliers})
 
 def orders(request):
-    return render(request, 'dashboard/orders.html')
+    if request.method == 'POST':
+        supplier_id = request.POST.get('supplier')
+        ingredient_id = request.POST.get('ingredient')
+        quantity = int(request.POST.get('quantity'))
+        delivery_date = request.POST.get('delivery_date')
+        total_cost = Decimal(request.POST.get('total_cost'))
+        status = request.POST.get('status')
+
+        supplier = Supplier.objects.get(id=supplier_id)
+        ingredient = InventoryItem.objects.get(ingredient=ingredient_id)
+
+        # Assuming the manager is tied to the logged-in user
+        # manager = Manager.objects.filter(user=request.user).first()   # uncomment this once auth is done
+        manager = Manager.objects.first()
+        if not manager:
+            messages.error(request, "No manager stored. Please add one.")
+            return redirect('orders-page')
+
+        # Create the order
+        order = SupplyOrder.objects.create(
+            supplier=supplier,
+            manager=manager,
+            delivery_date=delivery_date,
+            total_cost=total_cost,  # You can calculate cost based on quantity if you want
+            status=status
+        )
+
+        # Create the order detail
+        SupplyOrderDetail.objects.create(
+            supply_order=order,
+            supplier=supplier,
+            ingredient=ingredient,
+            quantity_ordered=quantity
+        )
+
+        return redirect('orders-page')
+
+    orders = SupplyOrder.objects.select_related('manager__user', 'supplier', 'supplyorderdetail__ingredient').order_by('-order_date')
+    suppliers = Supplier.objects.all()
+    ingredients = InventoryItem.objects.all()
+
+    return render(request, 'dashboard/orders.html', {
+        'orders': orders,
+        'suppliers': suppliers,
+        'ingredients': ingredients
+    })
 
 

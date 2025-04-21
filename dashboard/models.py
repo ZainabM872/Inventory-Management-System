@@ -8,7 +8,7 @@ class User(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 class Manager(models.Model):
     '''Manager Table'''
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -34,7 +34,7 @@ class Supplier(models.Model):
 
     def __str__(self):
         return self.company_name
-    
+
 class ContactInfo(models.Model):
     '''ContactInfo Table'''
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
@@ -51,7 +51,7 @@ class InventoryItem(models.Model):
     quantity_in_stock = models.IntegerField(default=0)
     unit = models.CharField(max_length=20)
     reorder_level = models.IntegerField(default=10)
-    
+
     IN_STOCK_CHOICES = [
         ('In Stock', 'In Stock'),
         ('Low Stock', 'Low Stock'),
@@ -61,7 +61,7 @@ class InventoryItem(models.Model):
 
     def __str__(self):
         return self.ingredient
-    
+
 
 class SupplyOrder(models.Model):
     '''SupplyOrder Table'''
@@ -94,7 +94,7 @@ class MenuItem(models.Model):
 
     def __str__(self):
         return self.item_name
-    
+
 
 class MenuOrder(models.Model):
     '''MenuOrder Table'''
