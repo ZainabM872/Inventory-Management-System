@@ -25,7 +25,7 @@ def index(request):
 
 
 # if we add '/staff' to the url of the page, it redirects to staff page
-def staff(request): 
+def staff(request):
     return render(request, 'dashboard/staff.html')
 
 # if we add '/manager' to the url of the page, it redirects to manager page
@@ -33,6 +33,9 @@ def manager(request):
     return render(request, 'dashboard/manager.html')
 
 def stock(request):
-    return render(request, 'dashboard/stock.html') 
+    return render(request, 'dashboard/stock.html')
+
+def suppliers(request):
+    return render(request, 'dashboard/suppliers.html')
 
 
