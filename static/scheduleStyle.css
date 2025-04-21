@@ -116,3 +116,31 @@ header .icons span:last-child{
     font-size: 5px; /* size of the dots */
     color: blue; /* color of the dots */
 }
+
+/* Button Styling */
+.calendar-btn {
+    padding: 10px 20px;
+    background-color: #003366; /* Navy background */
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid #003366; /* Same color border */
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.calendar-btn:hover {
+    background-color: #001f33; /* Darker navy on hover */
+    border-color: #001f33; /* Darker border on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.calendar-btn:active {
+    background-color: #002a47; /* Even darker navy when clicked */
+    border-color: #002a47; /* Darker border when clicked */
+    transform: translateY(0); /* Reset lift effect */
+}
