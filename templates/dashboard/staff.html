@@ -27,22 +27,34 @@
         <table>
             <thead>
                 <tr>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                    <th>Sunday</th>
+                    <th>Day</th>
+                    <th>Shift Timings</th>
                 </tr>
             </thead>
             <tbody>
                 {% for schedule in schedules %}
                     <tr>
+                        <td>Tuesday</td>
                         <td>{{ schedule.tuesday }}</td>
+                    </tr>
+                    <tr>
+                        <td>Wednesday</td>
                         <td>{{ schedule.wednesday }}</td>
+                    </tr>
+                    <tr>
+                        <td>Thursday</td>
                         <td>{{ schedule.thursday }}</td>
+                    </tr>
+                    <tr>
+                        <td>Friday</td>
                         <td>{{ schedule.friday }}</td>
+                    </tr>
+                    <tr>
+                        <td>Saturday</td>
                         <td>{{ schedule.saturday }}</td>
+                    </tr>
+                    <tr>
+                        <td>Sunday</td>
                         <td>{{ schedule.sunday }}</td>
                     </tr>
                 {% endfor %}
@@ -50,6 +62,8 @@
         </table>
     </div>
 </body>
+</html>
+
 </html>
 <!--
 
