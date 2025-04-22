@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 from dashboard.models import *
 
@@ -37,24 +38,34 @@ def get_logged_in_staff(request):
             return staff
     return None
 # if we add '/staff' to the url of the page, it redirects to staff page
-def staff(request): 
-    #staff_user = user()
-    userStaff = user()
-    schedule = get_object_or_404(Schedule, staff=userStaff)
 
-    #staffName = Schedule.objects.filter(staff=userStaff) # get the staff name from schedule 
-    shift_data = {
-        "tuesday": schedule.tuesday,
-        "wednesday": schedule.wednesday,
-        "thursday": schedule.thursday,
-        "friday": schedule.friday,
-        "saturday": schedule.saturday,
-        "sunday": schedule.sunday,
-        "staff_name": schedule.staff.name,
-    }
-    return render(request, "schedule.html", {
-        "shift_data_json": json.dumps(shift_data)
-    })
+
+'''@login_required
+def staff(request):
+    user = get_logged_in_staff(request)
+    staff_user = Staff.objects.filter(user=user).first()
+
+    if not staff_user:
+        return redirect('dashboard-login')
+
+    schedule = get_object_or_404(Schedule, staff=staff_user)
+
+    weekly_schedule = [
+        {"day": "Sunday", "date": "13", "shifts": schedule.sunday or []},
+       # {"day": "Monday", "date": "14", "shifts": schedule.monday or []},
+        {"day": "Tuesday", "date": "15", "shifts": schedule.tuesday or []},
+        {"day": "Wednesday", "date": "16", "shifts": schedule.wednesday or []},
+        {"day": "Thursday", "date": "17", "shifts": schedule.thursday or []},
+        {"day": "Friday", "date": "18", "shifts": schedule.friday or []},
+        {"day": "Saturday", "date": "19", "shifts": schedule.saturday or []},
+    ]
+
+    return render(request, "dashboard/staff.html", {
+        "schedule_json": json.dumps(weekly_schedule)
+    })'''
+def staff(request):
+    schedules = Schedule.objects.all()
+    return render(request, 'dashboard/staff.html', {'schedules': schedules})
 
 # if we add '/manager' to the url of the page, it redirects to manager page
 def manager(request):
