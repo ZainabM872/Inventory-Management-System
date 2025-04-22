@@ -1,11 +1,13 @@
-from django.contrib import messages
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.db.models import Prefetch
 from decimal import Decimal
 
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.db.models import Prefetch
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+
 from dashboard.models import *
+
 
 # when running the server, this will be the initial page
 def index(request):
@@ -35,7 +37,24 @@ def manager(request):
     return render(request, 'dashboard/manager.html')
 
 def stock(request):
-    return render(request, 'dashboard/stock.html')
+    if request.method == 'POST':
+        ingredient = request.POST.get('ingredient')
+        quantity = request.POST.get('quantity_in_stock')
+        unit = request.POST.get('unit')
+        reorder_level = request.POST.get('reorder_level')
+        stock_status = request.POST.get('stock_status')
+
+        InventoryItem.objects.create(
+            ingredient=ingredient,
+            quantity_in_stock=quantity,
+            unit=unit,
+            reorder_level=reorder_level,
+            stock_status=stock_status
+        )
+        return redirect('stock-page')
+
+    inventory_items = InventoryItem.objects.all()
+    return render(request, 'dashboard/stock.html', {'inventory_items': inventory_items})
 
 def suppliers(request):
     if request.method == 'POST':
