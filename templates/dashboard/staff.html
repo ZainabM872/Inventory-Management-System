@@ -1,13 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weekly Calendar View</title>
+    <link rel="stylesheet" href="{% static 'staff.css' %}">
+</head>
+<body>
+  {% include 'partials/staffNav.html' %}
+    <header class="header">
+        <h2>Schedule: April 13 – 19</h2>
+        <!-- Button to navigate to Calendar View -->
+        <button class="calendar-btn" onclick="window.location.href='{% url 'dashboard-schedule' %}';">Calendar View</button>
+    </header>
+    <!-- schedule.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Page</title>
+    <title>Schedule</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <h1>
-        This will be the staff page!
-    </h1>
+    <div class="schedule-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Shift Timings</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for schedule in schedules %}
+                    <tr>
+                        <td>Tuesday</td>
+                        <td>{{ schedule.tuesday }}</td>
+                    </tr>
+                    <tr>
+                        <td>Wednesday</td>
+                        <td>{{ schedule.wednesday }}</td>
+                    </tr>
+                    <tr>
+                        <td>Thursday</td>
+                        <td>{{ schedule.thursday }}</td>
+                    </tr>
+                    <tr>
+                        <td>Friday</td>
+                        <td>{{ schedule.friday }}</td>
+                    </tr>
+                    <tr>
+                        <td>Saturday</td>
+                        <td>{{ schedule.saturday }}</td>
+                    </tr>
+                    <tr>
+                        <td>Sunday</td>
+                        <td>{{ schedule.sunday }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
 </body>
 </html>

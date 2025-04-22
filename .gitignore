@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+inventory_management_system/settings.py
