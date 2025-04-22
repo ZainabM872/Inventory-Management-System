@@ -1,0 +1,140 @@
+/* Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9fafb; /* soft neutral background */
+    padding: 2rem;
+    margin: 0;
+}
+
+/* Header Layout with Flexbox */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+/* Title Styling */
+h2 {
+    color: #003366; /* deep blue title */
+    margin: 0;
+}
+
+/* Button Styling */
+.calendar-btn {
+    padding: 12px 24px;
+    background-color: #0056b3;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.calendar-btn:hover {
+    background-color: #003f7f;
+}
+/* Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9fafb; /* soft neutral background */
+    padding: 2rem;
+    margin: 0;
+}
+
+/* Container for the schedule table */
+.schedule-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow-x: auto; /* Allows horizontal scrolling if needed */
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background-color: #fff;
+}
+
+/* Table Header Styling */
+thead {
+    background-color: #003366; /* Deep blue header */
+    color: #fff;
+}
+
+th {
+    padding: 12px 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Table Row Styling */
+tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for rows */
+tbody tr:hover {
+    background-color: #f5f5f5; /* Slight gray on hover */
+}
+
+/* Table Data Styling */
+td {
+    padding: 12px 20px;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Day Column Styling */
+td:nth-child(1) {
+    font-weight: bold;
+    color: #003f7f; /* Blue color for day names */
+}
+
+/* Add borders to the top of the rows for better separation */
+tbody tr:first-child {
+    border-top: 2px solid #ddd;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    th, td {
+        padding: 10px;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    .schedule-container {
+        padding: 1rem;
+    }
+}
+
+/* Table Row Alternating Colors */
+tbody tr:nth-child(odd) {
+    background-color: #fafafa; /* Light gray background for odd rows */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #ffffff; /* White background for even rows */
+}
+
+/* Slight shadow effect on hover to lift the row */
+tbody tr:hover {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9; /* Light gray on hover */
+}

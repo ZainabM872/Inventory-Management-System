@@ -1,9 +1,11 @@
+import json
 from django.contrib import messages
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.db.models import Prefetch
 from decimal import Decimal
+from django.contrib.auth.decorators import login_required
 
 from dashboard.models import *
 
@@ -17,6 +19,8 @@ def index(request):
         # authenticate function checks if the user is valid
         if user:
             if Staff.objects.filter(user=user).exists():
+                # Store the staff's ID in the session
+                request.session['user_name'] = user.name
                 return redirect('dashboard-staff')
             elif Manager.objects.filter(user=user).exists():
                 return redirect('dashboard-manager')
@@ -26,9 +30,15 @@ def index(request):
     return render(request, 'dashboard/login.html') # otherwise if its a get request or user is not valid, it will render the login page
 
 
-# if we add '/staff' to the url of the page, it redirects to staff page
 def staff(request):
-    return render(request, 'dashboard/staff.html')
+    user_name = request.session.get('user_name')
+    user = User.objects.filter(name=user_name).first()  # get the user object
+    # get the staff linked to that user
+    staff = Staff.objects.filter(user=user).first()
+
+    # filter schedule for that staff only
+    schedules = Schedule.objects.filter(staff=staff)
+    return render(request, 'dashboard/staff.html', {'schedules': schedules})
 
 # if we add '/manager' to the url of the page, it redirects to manager page
 def manager(request):
@@ -100,5 +110,11 @@ def orders(request):
         'suppliers': suppliers,
         'ingredients': ingredients
     })
+
+# if we add '/schedule' to the url of the page, it redirects to schedule page
+def schedule(request):
+    return render(request, 'dashboard/schedule.html')
+
+
 
 

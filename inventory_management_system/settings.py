@@ -50,6 +50,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
 ROOT_URLCONF = 'inventory_management_system.urls'
 
 TEMPLATES = [
@@ -79,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'czaventory_db',
         'USER': 'root',                 # change this to your user name
-        'PASSWORD': 'password',              # change this to your password
+        'PASSWORD': 'Rainbows2005$',              # change this to your password
         'HOST': 'localhost',
         'PORT': '3306',
     }
