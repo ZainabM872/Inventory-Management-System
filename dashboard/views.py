@@ -17,6 +17,8 @@ def index(request):
         # authenticate function checks if the user is valid
         if user:
             if Staff.objects.filter(user=user).exists():
+                # Store the staff's ID in the session
+                request.session['user_name'] = user.name
                 return redirect('dashboard-staff')
             elif Manager.objects.filter(user=user).exists():
                 return redirect('dashboard-manager')
@@ -64,7 +66,13 @@ def staff(request):
         "schedule_json": json.dumps(weekly_schedule)
     })'''
 def staff(request):
-    schedules = Schedule.objects.all()
+    user_name = request.session.get('user_name')
+    user = User.objects.filter(name=user_name).first()  # get the user object
+    # get the staff linked to that user
+    staff = Staff.objects.filter(user=user).first()
+
+    # filter schedule for that staff only
+    schedules = Schedule.objects.filter(staff=staff)
     return render(request, 'dashboard/staff.html', {'schedules': schedules})
 
 # if we add '/manager' to the url of the page, it redirects to manager page

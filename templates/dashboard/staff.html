@@ -23,12 +23,10 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <h1>Staff Schedule</h1>
     <div class="schedule-container">
         <table>
             <thead>
                 <tr>
-                    <th>Staff</th>
                     <th>Tuesday</th>
                     <th>Wednesday</th>
                     <th>Thursday</th>
@@ -40,7 +38,6 @@
             <tbody>
                 {% for schedule in schedules %}
                     <tr>
-                        <td>{{ schedule.staff.name }}</td>
                         <td>{{ schedule.tuesday }}</td>
                         <td>{{ schedule.wednesday }}</td>
                         <td>{{ schedule.thursday }}</td>
