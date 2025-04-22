@@ -1,17 +1,18 @@
-# CZAventory 
+# 🧾 Restaurant Inventory Management System (IMS)
 
-## TODO
+A user-friendly and low-cost **Inventory Management System (IMS)** designed for small-scale restaurants. This Django-based web application automates inventory tracking, order management, and implements role-based access to help restaurants streamline their operations and reduce manual errors.
 
-### Caio
-- [X] Supplier page linked to db
-- [ ] Orders page linked to db
-- [ ] Add manager dashboard elements
-- [ ] Link dashboard page to db
+---
 
-### Alisha 
-- [ ] Link inventory page to db and display data accordingly
+## 📌 Table of Contents
 
-### Zainab
-- [X] Set up the db on your local
-- [X] Finish schedule front end
-- [ ] Link log in page to db user data for proper authentication
+- [Introduction](#introduction)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Setup Instructions](#setup-instructions)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
