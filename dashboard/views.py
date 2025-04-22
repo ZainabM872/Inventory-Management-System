@@ -1,18 +1,13 @@
 
 import json
-from django.contrib import messages
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
-from django.db.models import Prefetch
 from decimal import Decimal
-from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from dashboard.models import *
 
@@ -48,6 +43,50 @@ def staff(request):
     schedules = Schedule.objects.filter(staff=staff)
     return render(request, 'dashboard/staff.html', {'schedules': schedules})
 
+def staff_menu_orders(request):
+    if request.method == 'POST':
+        item_id = request.POST.get('item')
+        item_quantity = int(request.POST.get('item_quantity'))
+
+        user_name = request.session.get('user_name')
+        user = User.objects.filter(name=user_name).first()
+        staff = Staff.objects.filter(user=user).first()
+
+        if not staff:
+            return redirect('staff-menu-orders')
+
+        menu_item = MenuItem.objects.get(item_name=item_id)
+
+        # Create the MenuOrder
+        MenuOrder.objects.create(
+            item=menu_item,
+            item_quantity=item_quantity,
+            staff=staff
+        )
+
+        # Deduct ingredients from inventory
+        ingredients_used = MenuItemIngredient.objects.filter(menu_item=menu_item)
+        for entry in ingredients_used:
+            ingredient = entry.ingredient
+            required_quantity = entry.quantity_used * item_quantity
+            ingredient.quantity_in_stock -= required_quantity
+            ingredient.update_stock_status()
+
+        return redirect('staff-menu-orders')
+
+    # Handle GET
+    orders = MenuOrder.objects.select_related('item', 'staff__user')
+    for order in orders:
+        order.total_price = order.item.price * order.item_quantity
+
+    menu_items = MenuItem.objects.all()
+
+    return render(request, 'dashboard/staff_menu_orders.html', {
+        'orders': orders,
+        'menu_items': menu_items
+    })
+
+    
 # if we add '/manager' to the url of the page, it redirects to manager page
 def manager(request):
     return render(request, 'dashboard/manager.html')
