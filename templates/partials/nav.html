@@ -38,9 +38,10 @@
                         <li class="nav-item">
                             <a class="nav-link {% if request.path == '/orders/' %}active{% endif %}" href="{% url 'orders-page' %}">Orders</a>
                         </li>
+                        <!--
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard-staff' %}">Schedule</a>
-                        </li>
+                            <a class="nav-link {% if request.path == '/orders/' %}active{% endif %}" href="{% url 'dashboard-staff' %}">Schedule</a>
+                        </li>-->
                     </ul>
                 </div>
             </div>
