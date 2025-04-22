@@ -1,0 +1,48 @@
+{% extends "partials/base.html" %}
+{% load static %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'supplierstyle.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Suppliers</h1>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="#" class="btn btn-success">+ Add Supplier</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Company Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Essentials Inc.</td>
+                <td>essentials@example.com</td>
+                <td>555-4141</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Greenleaf Farms</td>
+                <td>greenleaf@example.com</td>
+                <td>555-3131</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Bun Brothers</td>
+                <td>buns@example.com</td>
+                <td>555-2121</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

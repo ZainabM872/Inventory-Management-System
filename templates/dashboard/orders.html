@@ -1,0 +1,64 @@
+{% extends "partials/base.html" %}
+{% load static %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'orderstyle.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Orders</h1>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="#" class="btn btn-success">+ Add Order</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ingredient</th>
+                <th>Quantity</th>
+                <th>Supplier</th>
+                <th>Total Cost</th>
+                <th>Delivery Date</th>
+                <th>Manager</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Cheese</td>
+                <td>100</td>
+                <td>DairyPro</td>
+                <td>$120.50</td>
+                <td>2025-03-20</td>
+                <td>Jasmine</td>
+                <td><span class="status completed">Completed</span></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Beef Patty</td>
+                <td>50</td>
+                <td>Meat Masters</td>
+                <td>$152.18</td>
+                <td>2025-03-26</td>
+                <td>Alisha</td>
+                <td><span class="status pending">Pending</span></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Coke</td>
+                <td>50</td>
+                <td>DrinkSource</td>
+                <td>$88.72</td>
+                <td>2025-03-26</td>
+                <td>Zainab</td>
+                <td><span class="status cancelled">Cancelled</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
