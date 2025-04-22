@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
+from django.db.models import Prefetch
+from decimal import Decimal
 from django.contrib.auth.decorators import login_required
 
 from dashboard.models import *
@@ -28,43 +30,6 @@ def index(request):
     return render(request, 'dashboard/login.html') # otherwise if its a get request or user is not valid, it will render the login page
 
 
-def get_logged_in_staff(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        user = User.objects.filter(name=username, password=password).first()
-        if user:
-            # return staff object, not just exists()
-            staff = Staff.objects.filter(user=user).first()
-            return staff
-    return None
-# if we add '/staff' to the url of the page, it redirects to staff page
-
-
-'''@login_required
-def staff(request):
-    user = get_logged_in_staff(request)
-    staff_user = Staff.objects.filter(user=user).first()
-
-    if not staff_user:
-        return redirect('dashboard-login')
-
-    schedule = get_object_or_404(Schedule, staff=staff_user)
-
-    weekly_schedule = [
-        {"day": "Sunday", "date": "13", "shifts": schedule.sunday or []},
-       # {"day": "Monday", "date": "14", "shifts": schedule.monday or []},
-        {"day": "Tuesday", "date": "15", "shifts": schedule.tuesday or []},
-        {"day": "Wednesday", "date": "16", "shifts": schedule.wednesday or []},
-        {"day": "Thursday", "date": "17", "shifts": schedule.thursday or []},
-        {"day": "Friday", "date": "18", "shifts": schedule.friday or []},
-        {"day": "Saturday", "date": "19", "shifts": schedule.saturday or []},
-    ]
-
-    return render(request, "dashboard/staff.html", {
-        "schedule_json": json.dumps(weekly_schedule)
-    })'''
 def staff(request):
     user_name = request.session.get('user_name')
     user = User.objects.filter(name=user_name).first()  # get the user object
@@ -80,7 +45,71 @@ def manager(request):
     return render(request, 'dashboard/manager.html')
 
 def stock(request):
-    return render(request, 'dashboard/stock.html') 
+    return render(request, 'dashboard/stock.html')
+
+def suppliers(request):
+    if request.method == 'POST':
+        company_name = request.POST.get('company_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+
+        supplier = Supplier.objects.create(company_name=company_name)
+        ContactInfo.objects.create(supplier=supplier, email=email, phone=phone)
+
+        return redirect('suppliers-page')
+
+    suppliers = Supplier.objects.prefetch_related(
+        Prefetch('contactinfo_set')
+    )
+    return render(request, 'dashboard/suppliers.html', {'suppliers': suppliers})
+
+def orders(request):
+    if request.method == 'POST':
+        supplier_id = request.POST.get('supplier')
+        ingredient_id = request.POST.get('ingredient')
+        quantity = int(request.POST.get('quantity'))
+        delivery_date = request.POST.get('delivery_date')
+        total_cost = Decimal(request.POST.get('total_cost'))
+        status = request.POST.get('status')
+
+        supplier = Supplier.objects.get(id=supplier_id)
+        ingredient = InventoryItem.objects.get(ingredient=ingredient_id)
+
+        # Assuming the manager is tied to the logged-in user
+        # manager = Manager.objects.filter(user=request.user).first()   # uncomment this once auth is done
+        manager = Manager.objects.first()
+        if not manager:
+            messages.error(request, "No manager stored. Please add one.")
+            return redirect('orders-page')
+
+        # Create the order
+        order = SupplyOrder.objects.create(
+            supplier=supplier,
+            manager=manager,
+            delivery_date=delivery_date,
+            total_cost=total_cost,  # You can calculate cost based on quantity if you want
+            status=status
+        )
+
+        # Create the order detail
+        SupplyOrderDetail.objects.create(
+            supply_order=order,
+            supplier=supplier,
+            ingredient=ingredient,
+            quantity_ordered=quantity
+        )
+
+        return redirect('orders-page')
+
+    orders = SupplyOrder.objects.select_related('manager__user', 'supplier', 'supplyorderdetail__ingredient').order_by('-order_date')
+    suppliers = Supplier.objects.all()
+    ingredients = InventoryItem.objects.all()
+
+    return render(request, 'dashboard/orders.html', {
+        'orders': orders,
+        'suppliers': suppliers,
+        'ingredients': ingredients
+    })
 
 # if we add '/schedule' to the url of the page, it redirects to schedule page
 def schedule(request):
