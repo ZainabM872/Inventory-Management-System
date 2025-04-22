@@ -11,7 +11,7 @@
     <h1 class="text-center mb-4">Orders</h1>
 
     <div class="d-flex justify-content-end mb-3">
-        <a href="#" class="btn btn-success">+ Add Order</a>
+        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addOrderModal">+ Add Order</a>
     </div>
 
     <table class="table table-striped">
@@ -28,37 +28,94 @@
             </tr>
         </thead>
         <tbody>
+            {% for order in orders %}
             <tr>
-                <td>1</td>
-                <td>Cheese</td>
-                <td>100</td>
-                <td>DairyPro</td>
-                <td>$120.50</td>
-                <td>2025-03-20</td>
-                <td>Jasmine</td>
-                <td><span class="status completed">Completed</span></td>
+                <td>{{ order.id }}</td>
+                <td>{{ order.supplyorderdetail.ingredient }}</td>
+                <td>{{ order.supplyorderdetail.quantity_ordered }}</td>
+                <td>{{ order.supplier.company_name }}</td>
+                <td>${{ order.total_cost }}</td>
+                <td>{{ order.delivery_date }}</td>
+                <td>{{ order.manager.user.name }}</td>
+
+                <td class="status
+                    {% if order.status == 'completed' %} completed
+                    {% elif order.status == 'pending' %} pending
+                    {% elif order.status == 'cancelled' %} cancelled
+                    {% endif %}
+                ">
+                    {{ order.status }}
+                </td>
+                <!-- <td><span class="status completed">Completed</span></td> -->
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Beef Patty</td>
-                <td>50</td>
-                <td>Meat Masters</td>
-                <td>$152.18</td>
-                <td>2025-03-26</td>
-                <td>Alisha</td>
-                <td><span class="status pending">Pending</span></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Coke</td>
-                <td>50</td>
-                <td>DrinkSource</td>
-                <td>$88.72</td>
-                <td>2025-03-26</td>
-                <td>Zainab</td>
-                <td><span class="status cancelled">Cancelled</span></td>
-            </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8">No supply orders found.</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
+    <!-- Add Supply Order Modal -->
+<div class="modal fade" id="addOrderModal" tabindex="-1" aria-labelledby="addOrderLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="POST" action="{% url 'orders-page' %}">
+          {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title" id="addOrderLabel">Add New Supply Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="supplier" class="form-label">Supplier</label>
+                    <select name="supplier" class="form-select" required>
+                        <option value="" disabled selected>Select a supplier</option>
+                        {% for supplier in suppliers %}
+                            <option value="{{ supplier.id }}">{{ supplier.company_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="ingredient" class="form-label">Ingredient</label>
+                    <select name="ingredient" class="form-select" required>
+                        <option value="" disabled selected>Select an ingredient</option>
+                        {% for item in ingredients %}
+                            <option value="{{ item.ingredient }}">{{ item.ingredient }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">Quantity</label>
+                    <input type="number" name="quantity" class="form-control" min="1" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="delivery_date" class="form-label">Delivery Date</label>
+                    <input type="date" name="delivery_date" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="total_cost" class="form-label">Total Cost ($)</label>
+                    <input type="number" name="total_cost" class="form-control" step="0.01" min="0" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="status" class="form-label">Order Status</label>
+                    <select name="status" class="form-select" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
