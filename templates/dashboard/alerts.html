@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alerts</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-
+    <link rel="stylesheet" href="{% static 'alerts.css' %}">
 </head>
 <body>
     {% include 'partials/staffNav.html' %}
@@ -16,15 +16,17 @@
     <h1>Alerts</h1>
     <table>
         <tr>
-            <th>Ingredient</th>
-            <th>Alert Type</th>
-            <th>Resolved</th>
+            <th style="text-align: center;">Ingredient</th>
+            <th style="text-align: center;">Alert Type</th>
+            <th style="text-align: center;">Resolved</th>
         </tr>
+
         {% for alert in unresolved_alerts %}
         <tr>
             <td>{{ alert.ingredient }}</td>
             <td>{{ alert.alert_type }}</td>
-            <td>{{ alert.resolved }}</td>
+            <td>{% if alert.resolved %}Yes{% else %}No{% endif %}</td>
+
         </tr>
         {% empty %}
         <tr>
@@ -37,6 +39,11 @@
     <!--next steps:
     - css stlying for the table
     - js: either remove alerts that are resolved or move them to the bottom of the table
-    - have a little notification (ex: 1) beside the alerts tab whenever a new alert is created-->
+    - have a little notification (ex: 1) beside the alerts tab whenever a new alert is created
+    - take a look at relationship between menu orders table, menu items, and inventory items and the way their deducted: cause rn its not corect
+    - if an alert is resolved, display yes, otherwise display no: not true or false
+    - issue: need to be able to add >1 ingredient to the MenuItemIngredient for each menu item (Ex: for MenuItemIngredient 1: cheeseburer, the only thing deducted from us bread bun)
+    - add button to manager page that takes them to the admin site
+     -->
 </body>
 </html>

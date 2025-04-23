@@ -21,8 +21,8 @@ class Command(BaseCommand):
             'Coke': 6,
             'Ginger Ale': 6,
             'Sprite': 6,
+            'Iced Tea': 6,
             'Root Beer': 6,
-            'Tea': 6,
             'Bread Bun': 8,
             'Potatoes': 9,
             'Mozzarella': 10,
@@ -87,7 +87,7 @@ class Command(BaseCommand):
             ('Ginger Ale',               'Ginger Ale',      1),
             ('Sprite',                   'Sprite',          1),
             ('Root Beer',                'Root Beer',       1),
-            ('Iced Tea',                 'Tea',             1),
+            ('Iced Tea',                 'Iced Tea',        1),
 
             ('Milkshake',                'Milk',            250),
             ('Milkshake',                'Ice Cream',       1),
