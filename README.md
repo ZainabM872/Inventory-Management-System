@@ -11,7 +11,7 @@ A user-friendly and low-cost **Inventory Management System (IMS)** designed for 
 - [Tech Stack](#tech-stack)
 - [Setup Instructions](#setup-instructions)
 - [Usage](#usage)
-- [Login Credentuals](#login-credentials)
+- [Login Credentials](#login-credentials)
 ---
 ## Features
 
