@@ -13,9 +13,15 @@ class Manager(models.Model):
     '''Manager Table'''
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
+    def __str__(self):
+        return f"{self.user.name}"
+
 class Staff(models.Model):
     '''Staff Table'''
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+    def __str__(self):
+        return f"{self.user.name}"
 
 class Schedule(models.Model):
     '''Schedule Table'''
@@ -27,6 +33,9 @@ class Schedule(models.Model):
     friday = models.CharField(max_length=20)
     saturday = models.CharField(max_length=20)
     sunday = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.staff}'s schedule"
 
 class Supplier(models.Model):
     '''Supplier Table'''
@@ -78,6 +87,9 @@ class SupplyOrder(models.Model):
     ]
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
 
+    def __str__(self):
+        return f"{self.supplier} - ${self.total_cost}"
+
 
 class SupplyOrderDetail(models.Model):
     '''SupplyOrderDetail Table'''
@@ -86,9 +98,12 @@ class SupplyOrderDetail(models.Model):
     ingredient = models.ForeignKey(InventoryItem, on_delete=models.CASCADE, null=True)
     quantity_ordered = models.IntegerField()
 
+    def __str__(self):
+        return f"{self.supply_order} - {self.ingredient} ({self.quantity_ordered})"
+
 
 class MenuItem(models.Model):
-    '''MenuItem Table'''
+    '''MenuItem Table (Individual items on the menu)'''
     item_name = models.CharField(max_length=50, primary_key=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -97,10 +112,30 @@ class MenuItem(models.Model):
 
 
 class MenuOrder(models.Model):
-    '''MenuOrder Table'''
-    item = models.ForeignKey(MenuItem, on_delete=models.SET_NULL, null=True)
-    item_quantity = models.IntegerField()
+    '''MenuOrder Table (Customer entire order)'''
     staff = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True)
+    order_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order #{self.id} by {self.staff.user.name if self.staff else 'Unknown'}"
+
+    @property
+    def total_price(self):
+        return sum(item.item.price * item.quantity for item in self.items.all())
+
+
+class MenuOrderItem(models.Model):
+    '''Intermediate table for MenuOrder and MenuItem.
+    (Contains each individual item in customer's order)'''
+    order = models.ForeignKey(MenuOrder, on_delete=models.CASCADE, related_name='items')
+    item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+
+    class Meta:
+        unique_together = ('order', 'item')
+
+    def __str__(self):
+        return f"{self.order} - {self.item} ({self.quantity})"
 
 
 class MenuItemIngredient(models.Model):
@@ -113,11 +148,17 @@ class MenuItemIngredient(models.Model):
     class Meta:
         unique_together = ('menu_item', 'ingredient')
 
+    def __str__(self):
+        return f"{self.menu_item} - {self.ingredient} ({self.quantity_used})"
+
 
 class Alert(models.Model):
     '''Alert Table'''
     ingredient = models.ForeignKey(InventoryItem, on_delete=models.CASCADE)
     alert_type = models.CharField(max_length=20, choices=[('Low Stock', 'Low Stock'), ('Out of Stock', 'Out of Stock')])
     resolved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.ingredient} - ({self.alert_type})"
 
 

@@ -13,7 +13,8 @@ from .models import (
     MenuItem,
     MenuOrder,
     MenuItemIngredient,
-    Alert
+    Alert,
+    MenuOrderItem
 )
 
 # This will make the suppliers' contact info show up together on the admin page.
@@ -35,5 +36,6 @@ admin.site.register(SupplyOrder)
 admin.site.register(SupplyOrderDetail)
 admin.site.register(MenuItem)
 admin.site.register(MenuOrder)
+admin.site.register(MenuOrderItem)
 admin.site.register(MenuItemIngredient)
 admin.site.register(Alert)
