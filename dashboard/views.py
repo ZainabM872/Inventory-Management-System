@@ -78,8 +78,8 @@ def staff_menu_orders(request):
             ingredient = entry.ingredient
             required_quantity = entry.quantity_used * item_quantity
             ingredient.quantity_in_stock -= required_quantity
-            ingredient.update_stock_status()  # update 'Low Stock' or 'Out of Stock'
-
+            ingredient.save()
+            createAlert(ingredient) # call create alert function to check if any alerts need to be generate and displayed
         return redirect('staff-menu-orders')
 
     # Handle GET
@@ -95,6 +95,15 @@ def staff_menu_orders(request):
     })
 
 
+def createAlert(ingredient):
+    # Check if the stock level is low or out of stock and create alerts
+    if ingredient.quantity_in_stock == 0:
+        if not Alert.objects.filter(ingredient=ingredient, alert_type='Out of Stock', resolved=False).exists():
+            Alert.objects.create(ingredient=ingredient,
+                                 alert_type='Out of Stock')
+    elif ingredient.quantity_in_stock <= ingredient.reorder_level:
+        if not Alert.objects.filter(ingredient=ingredient, alert_type='Low Stock', resolved=False).exists():
+            Alert.objects.create(ingredient=ingredient, alert_type='Low Stock')
     
 # if we add '/manager' to the url of the page, it redirects to manager page
 def manager(request):
@@ -188,7 +197,9 @@ def orders(request):
 def schedule(request):
     return render(request, 'dashboard/schedule.html')
 
-
-
 def alert(request):
-    return render(request, 'dashboard/alerts.html')
+    # Fetch unresolved alerts to display
+    unresolved_alerts = Alert.objects.filter(resolved=False)
+    return render(request, 'dashboard/alerts.html', {
+        'unresolved_alerts': unresolved_alerts
+    })
