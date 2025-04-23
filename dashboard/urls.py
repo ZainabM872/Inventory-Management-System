@@ -10,5 +10,6 @@ urlpatterns = [
     path('schedule/', views.schedule, name='dashboard-schedule'),
     path('suppliers/', views.suppliers, name='suppliers-page'),
     path('orders/', views.orders, name='orders-page'),
+    path('alerts/<int:alert_id>/resolve/', views.resolve_alert, name='resolve-alert'),
     # path('logout/', LogoutView.as_view(next_page='dashboard-login'), name='logout')
 ]

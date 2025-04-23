@@ -16,13 +16,16 @@ def index(request):
         password = request.POST.get('password')
         #user = authenticate(request, username=username, password=password)
         user = User.objects.filter(name=username, password=password).first()
+
         # authenticate function checks if the user is valid
         if user:
             if Staff.objects.filter(user=user).exists():
                 # Store the staff's ID in the session
                 request.session['user_name'] = user.name
                 return redirect('dashboard-staff')
+
             elif Manager.objects.filter(user=user).exists():
+                request.session['user_name'] = user.name
                 return redirect('dashboard-manager')
         else:
             messages.error(request, 'Invalid username or password.')
@@ -40,9 +43,6 @@ def staff(request):
     schedules = Schedule.objects.filter(staff=staff)
     return render(request, 'dashboard/staff.html', {'schedules': schedules})
 
-# if we add '/manager' to the url of the page, it redirects to manager page
-def manager(request):
-    return render(request, 'dashboard/manager.html')
 
 def stock(request):
     return render(request, 'dashboard/stock.html')
@@ -117,6 +117,12 @@ def schedule(request):
 
 
 def manager(request):
+    print("DEBUG: user_name in session =", request.session.get('user_name'))
+
+    user_name = request.session.get('user_name')
+    user = User.objects.filter(name=user_name).first()  # get the user object
+    manager = Manager.objects.filter(user=user).first()
+
     pending_supply = SupplyOrder.objects.filter(status='Pending')
     total_pending_orders = pending_supply.count()
 
@@ -127,8 +133,13 @@ def manager(request):
     return render(request, 'dashboard/manager.html', {
         'alert_items': alert_items,
         'total_alerts': total_alerts,
-        'pending_supply': total_pending_orders
+        'pending_supply': total_pending_orders,
+        'manager_name': manager.user.name if manager else 'Manager'
     })
 
 
-
+def resolve_alert(request, alert_id):
+    alert = Alert.objects.get(id=alert_id)
+    alert.resolved = True
+    alert.save()
+    return redirect('dashboard-manager')

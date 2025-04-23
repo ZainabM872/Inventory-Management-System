@@ -12,14 +12,14 @@
 
     <section class="home">
         <div class="dashboard-header">
-            <h1>Welcome, .</h1>
+            <h1>Welcome, {{ manager_name }}.</h1>
             <p>Here is a quick look at your restaurant's general information.</p>
         </div>
 
         <div class="dashboard-cards">
             <div class="dashboard-card">
                 <h3>Stock Alerts</h3>
-                <p class="dashboard-value alert">5</p>
+                <p class="dashboard-value">5</p>
             </div>
 
             <div class="dashboard-card">
@@ -43,6 +43,7 @@
                                 <th>Ingredient</th>
                                 <th>Quantity</th>
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,6 +55,12 @@
                                     <span class="status {% if alert.alert_type == 'Out of Stock' %}status-out{% else %}status-low{% endif %}">
                                         {{ alert.alert_type }}
                                     </span>
+                                </td>
+                                <td>
+                                    <form method="POST" action="{% url 'resolve-alert' alert.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-resolve">Resolve</button>
+                                    </form>
                                 </td>
                             </tr>
                             {% endfor %}
