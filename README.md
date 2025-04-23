@@ -1,4 +1,4 @@
-# 🧾 Restaurant Inventory Management System
+# 🧾 CZAventory - Restaurant Inventory Management System
 
 A user-friendly and low-cost **Inventory Management System (IMS)** designed for small-scale restaurants. This Django-based web application automates inventory tracking, order management, and implements role-based access to help restaurants streamline their operations and reduce manual errors.
 
@@ -108,16 +108,26 @@ DATABASES = {
 ### 5. Run Migrations
 ```bash
 python manage.py makemigrations
+```
+Chose this option:
+1) Provide a one-off default now which will be set on all existing rows.<br/>
+Accept default timezone or provide another value.<br/>
+```bash
 python manage.py migrate
 ```
 
-### 6. Create Superuser
+### 6. Load DB Data
+```bash
+python manage.py load_all_data
+```
+This will load all the data created in dashboard/management/commands
+### 7. Create Superuser
 ```bash
 python manage.py createsuperuser
 ```
 - Follow the prompts to set a username and password.
 
-### 7. Run the Development Server
+### 8. Run the Development Server
 ```bash
 python manage.py runserver
 ```
