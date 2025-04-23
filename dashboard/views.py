@@ -49,8 +49,8 @@ def staff(request):
 
 def staff_menu_orders(request):
     if request.method == 'POST':
-        item_id = request.POST.get('item')
-        item_quantity = int(request.POST.get('item_quantity'))
+        items = request.POST.getlist('items[]')
+        quantities = request.POST.getlist('quantities[]')
 
         user_name = request.session.get('user_name')
         user = User.objects.filter(name=user_name).first()
@@ -59,37 +59,47 @@ def staff_menu_orders(request):
         if not staff:
             return redirect('staff-menu-orders')
 
-        menu_item = MenuItem.objects.get(item_name=item_id)
+        order = MenuOrder.objects.create(staff=staff)
 
-        # First check if all required ingredients are in stock
-        ingredients_used = MenuItemIngredient.objects.filter(menu_item=menu_item)
-        for entry in ingredients_used:
-            ingredient = entry.ingredient
-            required_quantity = entry.quantity_used * item_quantity
-            if ingredient.quantity_in_stock < required_quantity:
-                messages.error(request, f"Not enough stock for {ingredient.ingredient}.")
-                return redirect('staff-menu-orders')
+        # Process each item in the order
+        for item_id, qty in zip(items, quantities):
+            qty = int(qty)
+            menu_item = MenuItem.objects.get(item_name=item_id)
 
-        # If all ingredients are available, create the order
-        MenuOrder.objects.create(
-            item=menu_item,
-            item_quantity=item_quantity,
-            staff=staff
-        )
+            # Check ingredient stock
+            ingredients_used = MenuItemIngredient.objects.filter(menu_item=menu_item)
+            for entry in ingredients_used:
+                ingredient = entry.ingredient
+                required_quantity = entry.quantity_used * qty
+                if ingredient.quantity_in_stock < required_quantity:
+                    messages.error(request, f"Not enough stock for {ingredient.ingredient}.")
+                    order.delete()  # cleanup partial order
+                    return redirect('staff-menu-orders')
 
-        # Deduct from inventory
-        for entry in ingredients_used:
-            ingredient = entry.ingredient
-            required_quantity = entry.quantity_used * item_quantity
-            ingredient.quantity_in_stock -= required_quantity
-            ingredient.update_stock_status()  # update 'Low Stock' or 'Out of Stock'
+
+        # All stock is valid — add the items
+        for item_id, qty in zip(items, quantities):
+            qty = int(qty)
+            menu_item = MenuItem.objects.get(item_name=item_id)
+            MenuOrderItem.objects.create(order=order, item=menu_item, quantity=qty)
+
+            # Deduct inventory
+            for entry in MenuItemIngredient.objects.filter(menu_item=menu_item):
+                ingredient = entry.ingredient
+                required_quantity = entry.quantity_used * qty
+                ingredient.quantity_in_stock -= required_quantity
+                ingredient.update_stock_status()
+                ingredient.save()
 
         return redirect('staff-menu-orders')
 
     # Handle GET
-    orders = MenuOrder.objects.select_related('item', 'staff__user')
+    orders = MenuOrder.objects.select_related('staff__user').all()
+
     for order in orders:
-        order.total_price = order.item.price * order.item_quantity
+        items = order.items.select_related('item')  # prefetch item info too
+        # order.total_price = sum(i.item.price * i.quantity for i in items)
+        order.item_list = items
 
     menu_items = MenuItem.objects.all()
 
