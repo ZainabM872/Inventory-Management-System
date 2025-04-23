@@ -14,7 +14,37 @@ from dashboard.models import *
 
 # when running the server, this will be the initial page
 def index(request):
+    # 🔐 If the user is already logged in (session exists), redirect accordingly
+    if 'user_name' in request.session:
+        user_name = request.session['user_name']
+        user = User.objects.filter(name=user_name).first()
+
+        if user:
+            if Staff.objects.filter(user=user).exists():
+                return redirect('dashboard-staff')
+            elif Manager.objects.filter(user=user).exists():
+                return redirect('dashboard-manager')
+
+    # 🧾 Handle login form submission
     if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = User.objects.filter(name=username, password=password).first()
+
+        if user:
+            request.session['user_name'] = user.name
+            if Staff.objects.filter(user=user).exists():
+                return redirect('dashboard-staff')
+            elif Manager.objects.filter(user=user).exists():
+                return redirect('dashboard-manager')
+        else:
+            messages.error(request, 'Invalid username or password.')
+            return redirect('dashboard-login')
+
+    # 🌐 If no session and no POST login, show the login page
+    return render(request, 'dashboard/login.html')
+
+    '''if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         #user = authenticate(request, username=username, password=password)
@@ -30,10 +60,19 @@ def index(request):
             elif Manager.objects.filter(user=user).exists():
                 request.session['user_name'] = user.name
                 return redirect('dashboard-manager')
+        elif request.session.session_key:
+            if Staff.objects.filter(user=user).exists():
+                # Store the staff's ID in the session
+                request.session['user_name'] = user.name
+                return redirect('dashboard-staff')
+
+            elif Manager.objects.filter(user=user).exists():
+                request.session['user_name'] = user.name
+                return redirect('dashboard-manager')
         else:
             messages.error(request, 'Invalid username or password.')
             return redirect('dashboard-login')
-    return render(request, 'dashboard/login.html') # otherwise if its a get request or user is not valid, it will render the login page
+    return render(request, 'dashboard/login.html') # otherwise if its a get request or user is not valid, it will render the login page'''
 
 
 def staff(request):
