@@ -98,12 +98,13 @@ def staff_menu_orders(request):
 def createAlert(ingredient):
     # Check if the stock level is low or out of stock and create alerts
     if ingredient.quantity_in_stock == 0:
-        if not Alert.objects.filter(ingredient=ingredient, alert_type='Out of Stock', resolved=False).exists():
-            Alert.objects.create(ingredient=ingredient,
-                                 alert_type='Out of Stock')
+        if not Alert.objects.filter(ingredient=ingredient, alert_type='Out of Stock', resolved=False).exists(): #checks if there is already an out of stock alert that hasnt been resolved yet
+            Alert.objects.create(ingredient=ingredient, alert_type='Out of Stock', resolved=False) #create a new alert
+
     elif ingredient.quantity_in_stock <= ingredient.reorder_level:
+        # checks if there is already a low alert that hasnt been resolved yet
         if not Alert.objects.filter(ingredient=ingredient, alert_type='Low Stock', resolved=False).exists():
-            Alert.objects.create(ingredient=ingredient, alert_type='Low Stock')
+            Alert.objects.create(ingredient=ingredient, alert_type='Low Stock', resolved=False) # create a new alert
     
 # if we add '/manager' to the url of the page, it redirects to manager page
 def manager(request):

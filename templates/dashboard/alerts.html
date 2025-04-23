@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +11,28 @@
 </head>
 <body>
     {% include 'partials/staffNav.html' %}
-    
+
+    {% block content %}
+    <h1>Alerts</h1>
+    <table>
+        <tr>
+            <th>Ingredient</th>
+            <th>Alert Type</th>
+            <th>Resolved</th>
+        </tr>
+        {% for alert in unresolved_alerts %}
+        <tr>
+            <td>{{ alert.ingredient }}</td>
+            <td>{{ alert.alert_type }}</td>
+            <td>{{ alert.resolved }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No unresolved alerts</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endblock %}
+
 </body>
 </html>
