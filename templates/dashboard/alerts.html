@@ -1,0 +1,46 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="{% static 'alerts.css' %}">
+</head>
+<body>
+    {% include 'partials/staffNav.html' %}
+
+    {% block content %}
+    <h1>Alerts</h1>
+
+    {% if unresolved_alerts %}
+        <table>
+            <tr>
+                <th style="text-align: center;">Ingredient</th>
+                <th style="text-align: center;">Alert Type</th>
+                <th style="text-align: center;">Resolved</th>
+            </tr>
+
+            {% for alert in unresolved_alerts %}
+            <tr>
+                <td>{{ alert.ingredient }}</td>
+                <td>{{ alert.alert_type }}</td>
+                <td style="color: {% if alert.resolved %}#28a745{% else %}#dc3545{% endif %};">
+                    {% if alert.resolved %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No unresolved alerts</p>
+    {% endif %}
+    {% endblock %}
+</body>
+
+</html>

@@ -13,5 +13,5 @@ urlpatterns = [
     path('orders/', views.orders, name='orders-page'),
     path('alerts/<int:alert_id>/resolve/', views.resolve_alert, name='resolve-alert'),
     path('staff/menuorders/', views.staff_menu_orders, name='staff-menu-orders'),
-    # path('logout/', LogoutView.as_view(next_page='dashboard-login'), name='logout')
+    path('alerts/', views.alert, name='alert-page')
 ]
