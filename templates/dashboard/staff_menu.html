@@ -1,0 +1,29 @@
+{% load static %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'staff_menu_style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% include 'partials/staffNav.html' %}
+<div class="staff-menu">
+    <h1>Menu Items</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in menu_items %}
+            <tr>
+                <td>{{ item.item_name }}</td>
+                <td>${{ item.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

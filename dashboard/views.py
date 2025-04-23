@@ -265,3 +265,8 @@ def resolve_alert(request, alert_id):
     alert.resolved = True
     alert.save()
     return redirect('dashboard-manager')
+
+
+def staff_menu(request):
+    menu_items = MenuItem.objects.all()
+    return render(request, 'dashboard/staff_menu.html', {'menu_items': menu_items})
