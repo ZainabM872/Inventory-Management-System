@@ -63,31 +63,33 @@ pip install -r requirements.txt
 ```
 
 ### 4. Configure MySQL Database
-#### a. Install Homebrew (if not already installed)
+#### A. Install Homebrew (if not already installed)
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
-- if you're using windows, download the MySQL Installer from 'https://dev.mysql.com/downloads/installer/'
 
-#### b: Install MySQL
+#### B: Install MySQL
 ```bash
 brew install mysql
 ```
+- if you're using Windows, download the MySQL Installer from 'https://dev.mysql.com/downloads/installer/'
 
-#### c: Start MySQL
+#### C: Start MySQL
 ```bash
 brew services start mysql
 ```
-- now follow the steps to create a username and password (Remember these)
+- During setup, set a username and password and remember it.
 
-#### d: Log into MySQL and Create a Database
-- login
+#### D: Log into MySQL and Create a Database
 ```bash
 mysql -u root -p
 ```
+- on Windows, start the MySQL Server from the installer dashboard or as a service.
+
+
 - Create a MySQL database named ims_db (or your preferred name).
-```bash
+```sql
 CREATE DATABASE your_db_name CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 EXIT;
 ```
