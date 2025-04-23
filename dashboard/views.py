@@ -47,6 +47,7 @@ def staff(request):
     return render(request, 'dashboard/staff.html', {'schedules': schedules})
 
 
+
 def staff_menu_orders(request):
     if request.method == 'POST':
         item_id = request.POST.get('item')
@@ -203,6 +204,12 @@ def schedule(request):
     return render(request, 'dashboard/schedule.html')
 
 
+def resolve_alert(request, alert_id):
+    alert = Alert.objects.get(id=alert_id)
+    alert.resolved = True
+    alert.save()
+    return redirect('dashboard-manager')
+
 def alert(request):
     # Fetch unresolved alerts to display
     unresolved_alerts = Alert.objects.filter(resolved=False)
@@ -234,13 +241,9 @@ def manager(request):
         'manager_name': manager.user.name if manager else 'Manager'
     })
 
-'''
+
 def resolve_alert(request, alert_id):
     alert = Alert.objects.get(id=alert_id)
     alert.resolved = True
     alert.save()
-    return redirect('dashboard-manager')    return render(request, 'dashboard/alerts.html', {
-        'unresolved_alerts': unresolved_alerts,
-        'unresolved_alerts_count': unresolved_alerts_count,
-    })
-'''
+    return redirect('dashboard-manager')     
