@@ -1,13 +1,16 @@
+
 import json
-from django.contrib import messages
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
-from django.db.models import Prefetch
 from decimal import Decimal
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.db.models import Prefetch
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 
 from dashboard.models import *
+
 
 # when running the server, this will be the initial page
 def index(request):
@@ -40,12 +43,82 @@ def staff(request):
     schedules = Schedule.objects.filter(staff=staff)
     return render(request, 'dashboard/staff.html', {'schedules': schedules})
 
+def staff_menu_orders(request):
+    if request.method == 'POST':
+        item_id = request.POST.get('item')
+        item_quantity = int(request.POST.get('item_quantity'))
+
+        user_name = request.session.get('user_name')
+        user = User.objects.filter(name=user_name).first()
+        staff = Staff.objects.filter(user=user).first()
+
+        if not staff:
+            return redirect('staff-menu-orders')
+
+        menu_item = MenuItem.objects.get(item_name=item_id)
+
+        # First check if all required ingredients are in stock
+        ingredients_used = MenuItemIngredient.objects.filter(menu_item=menu_item)
+        for entry in ingredients_used:
+            ingredient = entry.ingredient
+            required_quantity = entry.quantity_used * item_quantity
+            if ingredient.quantity_in_stock < required_quantity:
+                messages.error(request, f"Not enough stock for {ingredient.ingredient}.")
+                return redirect('staff-menu-orders')
+
+        # If all ingredients are available, create the order
+        MenuOrder.objects.create(
+            item=menu_item,
+            item_quantity=item_quantity,
+            staff=staff
+        )
+
+        # Deduct from inventory
+        for entry in ingredients_used:
+            ingredient = entry.ingredient
+            required_quantity = entry.quantity_used * item_quantity
+            ingredient.quantity_in_stock -= required_quantity
+            ingredient.update_stock_status()  # update 'Low Stock' or 'Out of Stock'
+
+        return redirect('staff-menu-orders')
+
+    # Handle GET
+    orders = MenuOrder.objects.select_related('item', 'staff__user')
+    for order in orders:
+        order.total_price = order.item.price * order.item_quantity
+
+    menu_items = MenuItem.objects.all()
+
+    return render(request, 'dashboard/staff_menu_orders.html', {
+        'orders': orders,
+        'menu_items': menu_items
+    })
+
+
+    
 # if we add '/manager' to the url of the page, it redirects to manager page
 def manager(request):
     return render(request, 'dashboard/manager.html')
 
 def stock(request):
-    return render(request, 'dashboard/stock.html')
+    if request.method == 'POST':
+        ingredient = request.POST.get('ingredient')
+        quantity = request.POST.get('quantity_in_stock')
+        unit = request.POST.get('unit')
+        reorder_level = request.POST.get('reorder_level')
+        stock_status = request.POST.get('stock_status')
+
+        InventoryItem.objects.create(
+            ingredient=ingredient,
+            quantity_in_stock=quantity,
+            unit=unit,
+            reorder_level=reorder_level,
+            stock_status=stock_status
+        )
+        return redirect('stock-page')
+
+    inventory_items = InventoryItem.objects.all()
+    return render(request, 'dashboard/stock.html', {'inventory_items': inventory_items})
 
 def suppliers(request):
     if request.method == 'POST':

@@ -10,7 +10,7 @@
     <h1 class="text-center mb-4">Ingredient Stock</h1>
 
     <div class="d-flex justify-content-end mb-3">
-        <a href="#" class="btn btn-success">+ Add Ingredient</a>
+        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addIngredientModal">+ Add Ingredient</a>
     </div>
 
     <table class="table table-striped">
@@ -24,42 +24,72 @@
             </tr>
         </thead>
         <tbody>
+            {% for item in inventory_items %}
             <tr>
-                <td>1</td>
-                <td>Bun</td>
-                <td>10</td>
-                <td>pcs</td>
-                <td><span class="status in-stock">In Stock</span></td>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.ingredient }}</td>
+                <td>{{ item.quantity_in_stock }}</td>
+                <td>{{ item.unit }}</td>
+                <td>
+                    {% if item.stock_status == 'In Stock' %}
+                        <span class="status in-stock">In Stock</span>
+                    {% elif item.stock_status == 'Low Stock' %}
+                        <span class="status low-stock">Low Stock</span>
+                    {% else %}
+                        <span class="status out-stock">Out of Stock</span>
+                    {% endif %}
+                </td>
             </tr>
+            {% empty %}
             <tr>
-                <td>2</td>
-                <td>Cheese Slice</td>
-                <td>4</td>
-                <td>pcs</td>
-                <td><span class="status low-stock">Low Stock</span></td>
+                <td colspan="5">No inventory items found.</td>
             </tr>
-            <tr>
-                <td>3</td>
-                <td>Patty</td>
-                <td>0</td>
-                <td>pcs</td>
-                <td><span class="status out-stock">Out of Stock</span></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Lettuce</td>
-                <td>150</td>
-                <td>g</td>
-                <td><span class="status in-stock">In Stock</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Tomato</td>
-                <td>20</td>
-                <td>g</td>
-                <td><span class="status low-stock">Low Stock</span></td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
+
+    <!-- Add Ingredient Modal -->
+    <div class="modal fade" id="addIngredientModal" tabindex="-1" aria-labelledby="addIngredientLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{% url 'stock-page' %}">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addIngredientLabel">Add New Ingredient</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="ingredient" class="form-label">Ingredient</label>
+                            <input type="text" class="form-control" name="ingredient" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity_in_stock" class="form-label">Quantity in stock</label>
+                            <input type="number" class="form-control" name="quantity_in_stock" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="unit" class="form-label">Unit</label>
+                            <input type="text" class="form-control" name="unit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reorder_level" class="form-label">Reorder level</label>
+                            <input type="number" class="form-control" name="reorder_level" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="stock_status" class="form-label">Stock Status</label>
+                            <select class="form-select" name="stock_status" required>
+                                <option value="In Stock">In Stock</option>
+                                <option value="Low Stock">Low Stock</option>
+                                <option value="Out of Stock">Out of Stock</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add Ingredient</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
