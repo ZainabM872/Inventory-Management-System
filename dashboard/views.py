@@ -5,10 +5,10 @@ from decimal import Decimal
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Sum, F, DecimalField
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-
+from django.utils import timezone
 from dashboard.models import *
 
 
@@ -122,7 +122,7 @@ def createAlert(ingredient):
         # checks if there is already a low alert that hasnt been resolved yet
         if not Alert.objects.filter(ingredient=ingredient, alert_type='Low Stock', resolved=False).exists():
             Alert.objects.create(ingredient=ingredient, alert_type='Low Stock', resolved=False) # create a new alert
-    
+
 # if we add '/manager' to the url of the page, it redirects to manager page
 def manager(request):
     return render(request, 'dashboard/manager.html')
@@ -227,7 +227,18 @@ def alert(request):
     })
 
 def manager(request):
-    print("DEBUG: user_name in session =", request.session.get('user_name'))
+    now = timezone.now()
+    current_month_orders = MenuOrder.objects.filter(
+        order_date__year=now.year,
+        order_date__month=now.month
+    )
+
+    # Sum total = sum of item.price * quantity for each MenuOrderItem in current month
+    monthly_total = MenuOrderItem.objects.filter(
+        order__in=current_month_orders
+    ).aggregate(
+        total=Sum(F('item__price') * F('quantity'), output_field=DecimalField())
+    )['total'] or 0
 
     user_name = request.session.get('user_name')
     user = User.objects.filter(name=user_name).first()  # get the user object
@@ -244,7 +255,8 @@ def manager(request):
         'alert_items': alert_items,
         'total_alerts': total_alerts,
         'pending_supply': total_pending_orders,
-        'manager_name': manager.user.name if manager else 'Manager'
+        'manager_name': manager.user.name if manager else 'Manager',
+        'montly_sales': monthly_total
     })
 
 
@@ -252,4 +264,4 @@ def resolve_alert(request, alert_id):
     alert = Alert.objects.get(id=alert_id)
     alert.resolved = True
     alert.save()
-    return redirect('dashboard-manager')     
+    return redirect('dashboard-manager')

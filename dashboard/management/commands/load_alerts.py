@@ -9,8 +9,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         alert_data = [
             # (ingredient_name, alert_type)
-            ('Lettuce', 'Out of Stock'),
+            ('Lettuce', 'Low Stock'),
             ('Onion', 'Low Stock'),
+            ('Root Beer', 'Out of Stock')
         ]
 
         for ingredient_name, alert_type in alert_data:
