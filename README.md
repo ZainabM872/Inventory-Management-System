@@ -63,8 +63,34 @@ pip install -r requirements.txt
 ```
 
 ### 4. Configure MySQL Database
+#### a. Install Homebrew (if not already installed)
 
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+- if you're using windows, download the MySQL Installer from 'https://dev.mysql.com/downloads/installer/'
+
+#### b: Install MySQL
+```bash
+brew install mysql
+```
+
+#### c: Start MySQL
+```bash
+brew services start mysql
+```
+- now follow the steps to create a username and password (Remember these)
+
+#### d: Log into MySQL and Create a Database
+- login
+```bash
+mysql -u root -p
+```
 - Create a MySQL database named ims_db (or your preferred name).
+```bash
+CREATE DATABASE your_db_name CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+EXIT;
+```
 - Update settings.py in the Django project with your MySQL credentials:
 ```bash
 DATABASES = {
@@ -79,7 +105,6 @@ DATABASES = {
 }
 
 ```
-
 ### 5. Run Migrations
 ```bash
 python manage.py makemigrations
