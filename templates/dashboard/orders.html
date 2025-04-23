@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Orders</h1>
+    <h1 class="text-center" style="padding-top: 45px">Orders</h1>
 
     <div class="d-flex justify-content-end mb-3">
         <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addOrderModal">+ Add Order</a>
@@ -37,7 +37,7 @@
                 <td>{{ order.delivery_date }}</td>
                 <td>{{ order.manager.user.name }}</td>
                 <td>
-                    <span class="status 
+                    <span class="status
                         {% if order.status == 'Completed' %} completed
                         {% elif order.status == 'Pending' %} pending
                         {% elif order.status == 'Cancelled' %} cancelled
