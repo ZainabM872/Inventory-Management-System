@@ -1,4 +1,4 @@
-# 🧾 Restaurant Inventory Management System
+# 🧾 CZAventory - Restaurant Inventory Management System
 
 A user-friendly and low-cost **Inventory Management System (IMS)** designed for small-scale restaurants. This Django-based web application automates inventory tracking, order management, and implements role-based access to help restaurants streamline their operations and reduce manual errors.
 
@@ -11,8 +11,10 @@ A user-friendly and low-cost **Inventory Management System (IMS)** designed for 
 - [Tech Stack](#tech-stack)
 - [Setup Instructions](#setup-instructions)
 - [Usage](#usage)
+- [Login Credentials](#9-login-credentials)
+
 ---
-## Features
+## Features 
 
 - **Inventory Tracking:** Monitors real-time stock levels for all ingredients and items.
 - **Order Management:** Automatically updates inventory based on new orders.
@@ -63,8 +65,36 @@ pip install -r requirements.txt
 ```
 
 ### 4. Configure MySQL Database
+#### A. Install Homebrew (if not already installed)
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+#### B: Install MySQL
+```bash
+brew install mysql
+```
+- if you're using Windows, download the MySQL Installer from 'https://dev.mysql.com/downloads/installer/'
+
+#### C: Start MySQL
+```bash
+brew services start mysql
+```
+- During setup, set a username and password and remember it.
+
+#### D: Log into MySQL and Create a Database
+```bash
+mysql -u root -p
+```
+- on Windows, start the MySQL Server from the installer dashboard or as a service.
+
 
 - Create a MySQL database named ims_db (or your preferred name).
+```sql
+CREATE DATABASE your_db_name CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+EXIT;
+```
 - Update settings.py in the Django project with your MySQL credentials:
 ```bash
 DATABASES = {
@@ -79,23 +109,45 @@ DATABASES = {
 }
 
 ```
-
 ### 5. Run Migrations
 ```bash
 python manage.py makemigrations
+```
+Chose this option:
+1) Provide a one-off default now which will be set on all existing rows.<br/>
+Accept default timezone or provide another value.<br/>
+```bash
 python manage.py migrate
 ```
 
-### 6. Create Superuser
+### 6. Load DB Data
+```bash
+python manage.py load_all_data
+```
+This will load all the data created in dashboard/management/commands
+### 7. Create Superuser
 ```bash
 python manage.py createsuperuser
 ```
 - Follow the prompts to set a username and password.
 
-### 7. Run the Development Server
+### 8. Run the Development Server
 ```bash
 python manage.py runserver
 ```
 - Visit http://127.0.0.1:8000/ to view the app.
 
+### 9. Login Credentials 
+To access the system you will need to login with name and password stored in the db.
+
+#### Manager Credentials
+- **Name:** `Alisha`  
+- **Password:** `alisha_password`
+
+#### Staff Credentials
+- **Name:** `Caio`  
+- **Password:** `caio_password`
+
+> ℹ️ All of the preloaded database data can be modified inside the `dashboard/management/commands` files.  
+> If you change the data, you'll need to **drop the database** and repeat from **Step 5** (migrations).
 

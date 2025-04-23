@@ -15,4 +15,5 @@ urlpatterns = [
     path('staff/menuorders/', views.staff_menu_orders, name='staff-menu-orders'),
     path('alerts/', views.alert, name='alert-page'),
     path('staff/menu/', views.staff_menu, name='staff_menu')
+    path('logout/', views.logout_view, name="logout"),
 ]
