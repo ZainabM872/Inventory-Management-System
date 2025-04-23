@@ -25,18 +25,13 @@
 
         <div class="dashboard-cards">
             <div class="dashboard-card">
-                <h3>Stock Alerts</h3>
-                <p class="dashboard-value">5</p>
-            </div>
-
-            <div class="dashboard-card">
                 <h3>Pending Supply Orders</h3>
                 <p class="dashboard-value">{{ pending_supply}}</p>
             </div>
 
             <div class="dashboard-card">
                 <h3>Monthly Sells</h3>
-                <p class="dashboard-value">$123,456</p>
+                <p class="dashboard-value">${{ montly_sales|floatformat:2 }}</p>
             </div>
 
             <div class="dashboard-card dashboard-stock-alerts">
