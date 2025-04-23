@@ -116,5 +116,19 @@ def schedule(request):
     return render(request, 'dashboard/schedule.html')
 
 
+def manager(request):
+    pending_supply = SupplyOrder.objects.filter(status='Pending')
+    total_pending_orders = pending_supply.count()
+
+    alert_items = Alert.objects.filter(resolved=False)
+    total_alerts = alert_items.count()
+
+
+    return render(request, 'dashboard/manager.html', {
+        'alert_items': alert_items,
+        'total_alerts': total_alerts,
+        'pending_supply': total_pending_orders
+    })
+
 
 

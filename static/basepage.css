@@ -52,3 +52,62 @@
 .dashboard-value.alert {
     color: #dc3545;
 }
+
+/* Alert container */
+.dashboard-stock-alerts {
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    padding: 30px 40px;
+    background-color: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Match the supplier-style table */
+.stock-alerts-table {
+    background-color: #f4f4f4;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Optional: tighten up header and cell spacing */
+.stock-alerts-table th,
+.stock-alerts-table td {
+    padding: 16px;
+    vertical-align: middle;
+    font-size: 0.95rem;
+}
+
+.stock-alerts-table thead {
+    background-color: #f4f4f4;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.stock-alerts-table tr:nth-child(even) {
+    background-color: #fdfdfd;
+}
+
+/* Badges for status types */
+.status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+    min-width: 120px;
+}
+
+.status-low {
+    background-color: #f0ad4e;
+}
+
+.status-out {
+    background-color: #dc3545;
+}
