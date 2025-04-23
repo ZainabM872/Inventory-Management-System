@@ -14,36 +14,33 @@
 
     {% block content %}
     <h1>Alerts</h1>
-    <table>
-        <tr>
-            <th style="text-align: center;">Ingredient</th>
-            <th style="text-align: center;">Alert Type</th>
-            <th style="text-align: center;">Resolved</th>
-        </tr>
 
-        {% for alert in unresolved_alerts %}
-        <tr>
-            <td>{{ alert.ingredient }}</td>
-            <td>{{ alert.alert_type }}</td>
-            <td>{% if alert.resolved %}Yes{% else %}No{% endif %}</td>
+    {% if unresolved_alerts %}
+        <table>
+            <tr>
+                <th style="text-align: center;">Ingredient</th>
+                <th style="text-align: center;">Alert Type</th>
+                <th style="text-align: center;">Resolved</th>
+            </tr>
 
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">No unresolved alerts</td>
-        </tr>
-        {% endfor %}
-    </table>
+            {% for alert in unresolved_alerts %}
+            <tr>
+                <td>{{ alert.ingredient }}</td>
+                <td>{{ alert.alert_type }}</td>
+                <td style="color: {% if alert.resolved %}#28a745{% else %}#dc3545{% endif %};">
+                    {% if alert.resolved %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No unresolved alerts</p>
+    {% endif %}
     {% endblock %}
-
-    <!--next steps:
-    - css stlying for the table
-    - js: either remove alerts that are resolved or move them to the bottom of the table
-    - have a little notification (ex: 1) beside the alerts tab whenever a new alert is created
-    - take a look at relationship between menu orders table, menu items, and inventory items and the way their deducted: cause rn its not corect
-    - if an alert is resolved, display yes, otherwise display no: not true or false
-    - issue: need to be able to add >1 ingredient to the MenuItemIngredient for each menu item (Ex: for MenuItemIngredient 1: cheeseburer, the only thing deducted from us bread bun)
-    - add button to manager page that takes them to the admin site
-     -->
 </body>
+
 </html>

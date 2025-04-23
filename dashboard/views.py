@@ -204,12 +204,6 @@ def schedule(request):
     return render(request, 'dashboard/schedule.html')
 
 
-def resolve_alert(request, alert_id):
-    alert = Alert.objects.get(id=alert_id)
-    alert.resolved = True
-    alert.save()
-    return redirect('dashboard-manager')
-
 def alert(request):
     # Fetch unresolved alerts to display
     unresolved_alerts = Alert.objects.filter(resolved=False)
