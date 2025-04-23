@@ -137,12 +137,12 @@ python manage.py runserver
 - Visit http://127.0.0.1:8000/ to view the app.
 
 ### 9. Login Credentials 
-To access the system you will need to login with name and password stored in the db.<br/>
-Manager Credentials:
+To access the system you will need to login with name and password stored in the db.
+<br/>
+**Manager Credentials**:
 - name: Alisha
 - password: alisha_password
-
-Staff Credentials
+**Staff Credentials**:
 - name: Caio
 - caio_password
 <br/>
