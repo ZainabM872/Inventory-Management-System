@@ -85,10 +85,8 @@ DATABASES = {
 python manage.py makemigrations
 ```
 Chose this option:
-1) Provide a one-off default now which will be set on all existing rows.
-<br/>
-Then accept default timezone or provide another value. 
-
+1) Provide a one-off default now which will be set on all existing rows.<br/>
+Accept default timezone or provide another value.<br/>
 ```bash
 python manage.py migrate
 ```
