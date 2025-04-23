@@ -29,3 +29,35 @@ A user-friendly and low-cost **Inventory Management System (IMS)** designed for 
 - **Others:** Bootstrap, Django Admin, Unicons
 
 ---
+## Setup Instructions
+
+### Prerequisites
+
+- Python 3.8+
+- MySQL Server
+- pip
+- virtualenv (optional but recommended)
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/ZainabM872/Inventory-Management-System.git
+cd Inventory-Management-System
+```
+### 2. Create and Activate Virtual Environment (optional)
+```bash
+python -m venv env
+```
+on Mac:
+```bash
+source env/bin/activate
+```
+on Windows:
+```bash
+env\Scripts\activate
+```
+
+### 3. Install Required Packages
+```bash
+pip install -r requirements.txt
+```
