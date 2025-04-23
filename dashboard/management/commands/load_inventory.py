@@ -26,7 +26,6 @@ class Command(BaseCommand):
             ('Gravy',             'ml',      2000,     500,    'In Stock'),
             ('Milk',              'ml',      1000,     250,    'In Stock'),
             ('Ice Cream',         'scoops',  100,      25,     'In Stock'),
-            ('Tea',               'bags',    30,       10,     'In Stock'),
             ('Burger Sauce',      'ml',      500,      100,    'In Stock'),
             ('Spicy Sauce',       'ml',      200,      50,     'In Stock'),
         ]

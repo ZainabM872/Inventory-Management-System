@@ -1,15 +1,18 @@
 from django.core.management.base import BaseCommand
 from dashboard.models import (
     SupplyOrder, SupplyOrderDetail, Supplier, Manager,
-    InventoryItem, MenuOrder, MenuItem, Staff
+    InventoryItem, MenuOrder, MenuItem, Staff, MenuOrderItem, User
 )
 from datetime import datetime
+from collections import defaultdict
+
+user_ids = {user.name: user.id for user in User.objects.all()}
 
 class Command(BaseCommand):
     help = 'Loads supply and menu orders into the database'
 
     def handle(self, *args, **kwargs):
-       
+
         supply_orders = [
             (2, 2, '2025-03-15 22:58:24', '2025-03-20', 120.50, 'Completed'),   # DairyPro – Cheese
             (5, 5, '2025-03-15 16:15:57', '2025-03-26', 152.18, 'Cancelled'),   # Meat Masters – Beef Patty
@@ -35,7 +38,7 @@ class Command(BaseCommand):
             )
             supply_order_objs.append(obj)
 
-        
+
         supply_order_details = [
             (1, 2, 'Cheese', 100),           # DairyPro
             (2, 5, 'Beef Patty', 50),        # Meat Masters
@@ -58,25 +61,47 @@ class Command(BaseCommand):
                 quantity_ordered=qty
             )
 
-        # 
+        #
         menu_orders = [
-            ('Cheeseburger', 1, 1),
-            ('Double Cheeseburger', 2, 1),
-            ('Bacon Cheeseburger', 1, 3),
-            ('Coke', 2, 3),
-            ('Ginger Ale', 1, 4),
-            ('Sprite', 1, 4),
-            ('Fries', 1, 1),
-            ('Onion Rings', 1, 4),
+            # Staff 1 (User 1)
+            ('Cheeseburger', 1, user_ids['Caio']),
+            ('Double Cheeseburger', 2, user_ids['Caio']),
+            ('Fries', 1, user_ids['Caio']),
+            ('Coke', 2, user_ids['Caio']),
+
+            # Staff 2 (User 2)
+            ('Onion Rings', 2, user_ids['Zainab']),
+            ('Sprite', 1, user_ids['Zainab']),
+            ('Ginger Ale', 1, user_ids['Zainab']),
+
+            # Staff 3 (User 3)
+            ('Bacon Cheeseburger', 2, user_ids['Marco']),
+            ('Fries', 1, user_ids['Marco']),
+            ('Coke', 1, user_ids['Marco']),
+
+            # Staff 4 (User 4)
+            ('Cheeseburger', 3, user_ids['Eli']),
+            ('Fries', 2, user_ids['Eli']),
+            ('Ginger Ale', 1, user_ids['Eli']),
+            ('Sprite', 2, user_ids['Eli']),
+
+            # Staff 5 (User 5)
+            ('Double Cheeseburger', 1, user_ids['Rosa']),
+            ('Coke', 1, user_ids['Rosa']),
+            ('Onion Rings', 1, user_ids['Rosa']),
         ]
 
+        grouped_orders = defaultdict(list)
+
         for item_name, qty, staff_id in menu_orders:
-            item = MenuItem.objects.get(item_name=item_name)
+            grouped_orders[staff_id].append((item_name, qty))
+
+        for staff_id, items in grouped_orders.items():
             staff = Staff.objects.get(user__id=staff_id)
-            MenuOrder.objects.create(
-                item=item,
-                item_quantity=qty,
-                staff=staff
-            )
+            order = MenuOrder.objects.create(staff=staff)
+
+            for item_name, qty in items:
+                item = MenuItem.objects.get(item_name=item_name)
+                MenuOrderItem.objects.create(order=order, item=item, quantity=qty)
 
         self.stdout.write(self.style.SUCCESS('✅ Supply and menu orders loaded successfully!'))
