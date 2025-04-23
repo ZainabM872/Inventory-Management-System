@@ -139,12 +139,13 @@ python manage.py runserver
 ### 9. Login Credentials 
 To access the system you will need to login with name and password stored in the db.
 <br/>
-**Manager Credentials**:
-- name: Alisha
-- password: alisha_password
-**Staff Credentials**:
-- name: Caio
-- caio_password
+#### Manager Credentials
+- **Name:** `Alisha`  
+- **Password:** `alisha_password`
+
+#### Staff Credentials
+- **Name:** `Caio`  
+- **Password:** `caio_password`
 <br/>
 Obs: All of the db loaded data can be modified inside the dashboard/management/commands files. If you modify you will have to drop the database and repeat the steps from step 5.
 
