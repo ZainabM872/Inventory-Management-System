@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'czaventory_db',
-        'USER': 'root',                 # change this to your user name
-        'PASSWORD': 'Rainbows2005$',              # change this to your password
+        'USER': 'your_mysql_username',
+        'PASSWORD': 'your_mysql_password',
         'HOST': 'localhost',
         'PORT': '3306',
     }
