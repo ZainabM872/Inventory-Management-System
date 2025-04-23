@@ -138,11 +138,11 @@ python manage.py runserver
 
 ### 9. Login Credentials 
 To access the system you will need to login with name and password stored in the db.<br/>
-* Manager Credentials
+Manager Credentials:
 - name: Alisha
 - password: alisha_password
 
-* Staff Credentuals
+Staff Credentials
 - name: Caio
 - caio_password
 <br/>
