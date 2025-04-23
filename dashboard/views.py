@@ -57,20 +57,28 @@ def staff_menu_orders(request):
 
         menu_item = MenuItem.objects.get(item_name=item_id)
 
-        # Create the MenuOrder
+        # First check if all required ingredients are in stock
+        ingredients_used = MenuItemIngredient.objects.filter(menu_item=menu_item)
+        for entry in ingredients_used:
+            ingredient = entry.ingredient
+            required_quantity = entry.quantity_used * item_quantity
+            if ingredient.quantity_in_stock < required_quantity:
+                messages.error(request, f"Not enough stock for {ingredient.ingredient}.")
+                return redirect('staff-menu-orders')
+
+        # If all ingredients are available, create the order
         MenuOrder.objects.create(
             item=menu_item,
             item_quantity=item_quantity,
             staff=staff
         )
 
-        # Deduct ingredients from inventory
-        ingredients_used = MenuItemIngredient.objects.filter(menu_item=menu_item)
+        # Deduct from inventory
         for entry in ingredients_used:
             ingredient = entry.ingredient
             required_quantity = entry.quantity_used * item_quantity
             ingredient.quantity_in_stock -= required_quantity
-            ingredient.update_stock_status()
+            ingredient.update_stock_status()  # update 'Low Stock' or 'Out of Stock'
 
         return redirect('staff-menu-orders')
 
@@ -85,6 +93,7 @@ def staff_menu_orders(request):
         'orders': orders,
         'menu_items': menu_items
     })
+
 
     
 # if we add '/manager' to the url of the page, it redirects to manager page

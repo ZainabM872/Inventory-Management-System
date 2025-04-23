@@ -67,6 +67,12 @@
                     <div class="mb-3">
                         <label for="item_quantity" class="form-label">Quantity</label>
                         <input type="number" name="item_quantity" class="form-control" min="1" required>
+
+                        {% with messages|join:" " as all_messages %}
+                            {% if "Not enough stock" in all_messages %}
+                                <div class="text-danger mt-2 small">Not enough stock for one or more ingredients.</div>
+                            {% endif %}
+                        {% endwith %}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -76,4 +82,28 @@
         </div>
     </div>
 </div>
+
+<!-- Auto-trigger modal on stock error -->
+{% if messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalElement = document.getElementById('addMenuOrderModal');
+        const errorDiv = modalElement.querySelector('.text-danger');
+
+        // Auto-show modal if error exists
+        const messages = `{% for message in messages %}{{ message }} {% endfor %}`;
+        if (messages.includes("Not enough stock")) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+
+        // Clear error message when manually opened
+        modalElement.addEventListener('show.bs.modal', function () {
+            if (errorDiv) {
+                errorDiv.remove();  // fully remove the error from DOM
+            }
+        });
+    });
+</script>
+{% endif %}
 {% endblock %}
