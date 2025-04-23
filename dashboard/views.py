@@ -14,7 +14,7 @@ from dashboard.models import *
 
 # when running the server, this will be the initial page
 def index(request):
-    # 🔐 If the user is already logged in (session exists), redirect accordingly
+    # If the user is already logged in (session exists), redirect accordingly
     if 'user_name' in request.session:
         user_name = request.session['user_name']
         user = User.objects.filter(name=user_name).first()
@@ -25,8 +25,8 @@ def index(request):
             elif Manager.objects.filter(user=user).exists():
                 return redirect('dashboard-manager')
 
-    # 🧾 Handle login form submission
-    if request.method == 'POST':
+    # Handle login form submission
+    elif request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = User.objects.filter(name=username, password=password).first()
@@ -41,7 +41,7 @@ def index(request):
             messages.error(request, 'Invalid username or password.')
             return redirect('dashboard-login')
 
-    # 🌐 If no session and no POST login, show the login page
+    # If no session and no POST login, show the login page
     return render(request, 'dashboard/login.html')
 
     '''if request.method == 'POST':
@@ -304,3 +304,8 @@ def resolve_alert(request, alert_id):
     alert.resolved = True
     alert.save()
     return redirect('dashboard-manager')
+
+
+def logout_view(request):
+    request.session.flush()  # This clears all session data
+    return redirect('dashboard-login')  # Redirect to login page
