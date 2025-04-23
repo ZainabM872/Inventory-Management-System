@@ -1,0 +1,109 @@
+{% extends "partials/staffNav.html" %}
+{% load static %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'orderstyle.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Menu Orders</h1>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addMenuOrderModal">+ Add Order</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Cost</th>
+                <th>Staff</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.item }}</td>
+                <td>{{ order.item_quantity }}</td>
+                <td>${{ order.item.price }}</td>
+                <td>${{ order.total_price }}</td>
+                <td>{{ order.staff.user.name }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No orders placed yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Menu Order Modal -->
+<div class="modal fade" id="addMenuOrderModal" tabindex="-1" aria-labelledby="addMenuOrderLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'staff-menu-orders' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMenuOrderLabel">Add New Menu Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="item" class="form-label">Menu Item</label>
+                        <select name="item" class="form-select" required>
+                            <option value="" disabled selected>Select a menu item</option>
+                            {% for menu_item in menu_items %}
+                                <option value="{{ menu_item.item_name }}">{{ menu_item.item_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="item_quantity" class="form-label">Quantity</label>
+                        <input type="number" name="item_quantity" class="form-control" min="1" required>
+
+                        {% with messages|join:" " as all_messages %}
+                            {% if "Not enough stock" in all_messages %}
+                                <div class="text-danger mt-2 small">Not enough stock for one or more ingredients.</div>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Auto-trigger modal on stock error -->
+{% if messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalElement = document.getElementById('addMenuOrderModal');
+        const errorDiv = modalElement.querySelector('.text-danger');
+
+        // Auto-show modal if error exists
+        const messages = `{% for message in messages %}{{ message }} {% endfor %}`;
+        if (messages.includes("Not enough stock")) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+
+        // Clear error message when manually opened
+        modalElement.addEventListener('show.bs.modal', function () {
+            if (errorDiv) {
+                errorDiv.remove();  // fully remove the error from DOM
+            }
+        });
+    });
+</script>
+{% endif %}
+{% endblock %}

@@ -70,6 +70,18 @@ class InventoryItem(models.Model):
 
     def __str__(self):
         return self.ingredient
+    
+    def update_stock_status(self):
+        if self.quantity_in_stock <= 0:
+            new_status = 'Out of Stock'
+        elif self.quantity_in_stock <= self.reorder_level:
+            new_status = 'Low Stock'
+        else:
+            new_status = 'In Stock'
+
+        if self.stock_status != new_status:
+            self.stock_status = new_status
+            self.save()
 
 
 class SupplyOrder(models.Model):

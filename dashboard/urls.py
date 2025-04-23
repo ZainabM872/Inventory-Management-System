@@ -1,5 +1,6 @@
-from django.urls import path
 from django.contrib.auth.views import LogoutView
+from django.urls import path
+
 from . import views
 
 urlpatterns = [
@@ -11,5 +12,6 @@ urlpatterns = [
     path('suppliers/', views.suppliers, name='suppliers-page'),
     path('orders/', views.orders, name='orders-page'),
     path('alerts/<int:alert_id>/resolve/', views.resolve_alert, name='resolve-alert'),
+    path('staff/menuorders/', views.staff_menu_orders, name='staff-menu-orders'),
     # path('logout/', LogoutView.as_view(next_page='dashboard-login'), name='logout')
 ]
