@@ -198,9 +198,13 @@ def orders(request):
 def schedule(request):
     return render(request, 'dashboard/schedule.html')
 
+
 def alert(request):
     # Fetch unresolved alerts to display
     unresolved_alerts = Alert.objects.filter(resolved=False)
+    unresolved_alerts_count = unresolved_alerts.count()
+
     return render(request, 'dashboard/alerts.html', {
-        'unresolved_alerts': unresolved_alerts
+        'unresolved_alerts': unresolved_alerts,
+        'unresolved_alerts_count': unresolved_alerts_count,
     })
