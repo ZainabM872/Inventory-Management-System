@@ -190,4 +190,5 @@ def schedule(request):
 
 
 
-
+def alert(request):
+    return render(request, 'dashboard/alerts.html')
