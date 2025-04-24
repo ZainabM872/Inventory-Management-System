@@ -141,12 +141,24 @@ python manage.py runserver
 To access the system you will need to login with name and password stored in the db.
 
 #### Manager Credentials
-- **Name:** `Alisha`  
+- **Name:** `Alisha`
 - **Password:** `alisha_password`
 
+- **Name:** `Jasmine`
+- **Password:** `jasmine_password`
+
+- **Name:** `Andre`
+- **Password:** `andre_password`
+
 #### Staff Credentials
-- **Name:** `Caio`  
+- **Name:** `Caio`
 - **Password:** `caio_password`
+
+- **Name:** `Zainab`
+- **Password:** `zainab_password`
+
+- **Name:** `Marco`
+- **Password:** `marco_password`
 
 > ℹ️ All of the preloaded database data can be modified inside the `dashboard/management/commands` files.  
 > If you change the data, you'll need to **drop the database** and repeat from **Step 5** (migrations).
