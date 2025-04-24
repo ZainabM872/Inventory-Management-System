@@ -152,15 +152,35 @@ def staff_menu_orders(request):
 
 
 def createAlert(ingredient):
-    # Check if the stock level is low or out of stock and create alerts
+    # Check if the stock level is out of stock
     if ingredient.quantity_in_stock == 0:
-        if not Alert.objects.filter(ingredient=ingredient, alert_type='Out of Stock', resolved=False).exists(): #checks if there is already an out of stock alert that hasnt been resolved yet
-            Alert.objects.create(ingredient=ingredient, alert_type='Out of Stock', resolved=False) #create a new alert
+        # First, resolve any low stock alerts if they exist
+        low_stock_alerts = Alert.objects.filter(
+            ingredient=ingredient, alert_type='Low Stock', resolved=False)
+        if low_stock_alerts.exists():
+            # Mark low stock alerts as resolved
+            low_stock_alerts.update(resolved=True)
+
+        # Create an out-of-stock alert if not already present
+        if not Alert.objects.filter(ingredient=ingredient, alert_type='Out of Stock', resolved=False).exists():
+            # Create a new out-of-stock alert
+            Alert.objects.create(ingredient=ingredient,
+                                 alert_type='Out of Stock', resolved=False)
 
     elif ingredient.quantity_in_stock <= ingredient.reorder_level:
-        # checks if there is already a low alert that hasnt been resolved yet
+        # Check if there is already an out-of-stock alert and resolve it if present
+        out_of_stock_alerts = Alert.objects.filter(
+            ingredient=ingredient, alert_type='Out of Stock', resolved=False)
+        if out_of_stock_alerts.exists():
+            # Mark out-of-stock alerts as resolved
+            out_of_stock_alerts.update(resolved=True)
+
+        # Create a low stock alert if not already present
         if not Alert.objects.filter(ingredient=ingredient, alert_type='Low Stock', resolved=False).exists():
-            Alert.objects.create(ingredient=ingredient, alert_type='Low Stock', resolved=False) # create a new alert
+            # Create a new low stock alert
+            Alert.objects.create(ingredient=ingredient,
+                                 alert_type='Low Stock', resolved=False)
+
 
 # if we add '/manager' to the url of the page, it redirects to manager page
 def manager(request):
