@@ -55,7 +55,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
+                    {% if error_message %}
+                    <div class="alert alert-danger">{{ error_message }}</div>
+                    {% endif %}
                     <div id="items-container">
                         <div class="item-row mb-3 d-flex gap-2">
                             <select name="items[]" class="form-select" required>
@@ -79,48 +81,48 @@
 </div>
 
 <!-- Auto-trigger modal on stock error -->
-{% if messages %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const modalElement = document.getElementById('addMenuOrderModal');
-        const messages = `{% for message in messages %}{{ message }} {% endfor %}`;
+    {% if messages %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modalElement = document.getElementById('addMenuOrderModal');
+            const messages = `{% for message in messages %}{{ message }} {% endfor %}`;
 
-        if (messages.includes("Not enough stock")) {
-            new bootstrap.Modal(modalElement).show();
-        }
-    });
-</script>
-{% endif %}
-
-<!-- Template for dynamically adding menu item rows -->
-<script type="text/template" id="item-template">
-    <div class="item-row mb-3 d-flex gap-2">
-        <select name="items[]" class="form-select" required>
-            <option value="" disabled selected>Select item</option>
-            {% for menu_item in menu_items %}
-                <option value="{{ menu_item.item_name }}">{{ menu_item.item_name }}</option>
-            {% endfor %}
-        </select>
-        <input type="number" name="quantities[]" class="form-control" placeholder="Qty" min="1" required>
-        <button type="button" class="btn btn-danger remove-item">×</button>
-    </div>
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const addItemBtn = document.getElementById("add-item");
-        const container = document.getElementById("items-container");
-        const template = document.getElementById("item-template").innerHTML;
-
-        addItemBtn.addEventListener("click", function () {
-            container.insertAdjacentHTML("beforeend", template);
-        });
-
-        document.addEventListener("click", function (e) {
-            if (e.target.classList.contains("remove-item")) {
-                e.target.closest(".item-row").remove();
+            if (messages.includes("Not enough stock")) {
+                new bootstrap.Modal(modalElement).show();
             }
         });
-    });
-</script>
+    </script>
+    {% endif %}
+
+    <!-- Template for dynamically adding menu item rows -->
+    <script type="text/template" id="item-template">
+        <div class="item-row mb-3 d-flex gap-2">
+            <select name="items[]" class="form-select" required>
+                <option value="" disabled selected>Select item</option>
+                {% for menu_item in menu_items %}
+                    <option value="{{ menu_item.item_name }}">{{ menu_item.item_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="number" name="quantities[]" class="form-control" placeholder="Qty" min="1" required>
+            <button type="button" class="btn btn-danger remove-item">×</button>
+        </div>
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const addItemBtn = document.getElementById("add-item");
+            const container = document.getElementById("items-container");
+            const template = document.getElementById("item-template").innerHTML;
+
+            addItemBtn.addEventListener("click", function () {
+                container.insertAdjacentHTML("beforeend", template);
+            });
+
+            document.addEventListener("click", function (e) {
+                if (e.target.classList.contains("remove-item")) {
+                    e.target.closest(".item-row").remove();
+                }
+            });
+        });
+    </script>
 {% endblock %}

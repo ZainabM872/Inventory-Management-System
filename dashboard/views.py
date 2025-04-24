@@ -86,7 +86,6 @@ def staff(request):
     return render(request, 'dashboard/staff.html', {'schedules': schedules})
 
 
-
 def staff_menu_orders(request):
     if request.method == 'POST':
         items = request.POST.getlist('items[]')
@@ -107,21 +106,29 @@ def staff_menu_orders(request):
             menu_item = MenuItem.objects.get(item_name=item_id)
 
             # Check ingredient stock
-            ingredients_used = MenuItemIngredient.objects.filter(menu_item=menu_item)
+            ingredients_used = MenuItemIngredient.objects.filter(
+                menu_item=menu_item)
             for entry in ingredients_used:
                 ingredient = entry.ingredient
                 required_quantity = entry.quantity_used * qty
                 if ingredient.quantity_in_stock < required_quantity:
-                    messages.error(request, f"Not enough stock for {ingredient.ingredient}.")
+                    # Add error message and show modal flag to the context
+                    messages.error(
+                        request, f"Not enough stock for {ingredient.ingredient}.")
                     order.delete()  # cleanup partial order
-                    return redirect('staff-menu-orders')
-
+                    return render(request, 'dashboard/staff_menu_orders.html', {
+                        'error_message': f"Not enough stock for {ingredient.ingredient}.",
+                        'orders': MenuOrder.objects.select_related('staff__user').all(),
+                        'menu_items': MenuItem.objects.all(),
+                        'show_modal': True  # Trigger modal to show
+                    })
 
         # All stock is valid — add the items
         for item_id, qty in zip(items, quantities):
             qty = int(qty)
             menu_item = MenuItem.objects.get(item_name=item_id)
-            MenuOrderItem.objects.create(order=order, item=menu_item, quantity=qty)
+            MenuOrderItem.objects.create(
+                order=order, item=menu_item, quantity=qty)
 
             # Deduct inventory
             for entry in MenuItemIngredient.objects.filter(menu_item=menu_item):
@@ -130,7 +137,7 @@ def staff_menu_orders(request):
                 ingredient.quantity_in_stock -= required_quantity
                 ingredient.update_stock_status()
                 ingredient.save()
-                # call create alert function to check if any alerts need to be generate and displayed
+                # call create alert function to check if any alerts need to be generated
                 createAlert(ingredient)
 
         return redirect('staff-menu-orders')
@@ -140,14 +147,15 @@ def staff_menu_orders(request):
 
     for order in orders:
         items = order.items.select_related('item')  # prefetch item info too
-        # order.total_price = sum(i.item.price * i.quantity for i in items)
         order.item_list = items
 
     menu_items = MenuItem.objects.all()
 
     return render(request, 'dashboard/staff_menu_orders.html', {
         'orders': orders,
-        'menu_items': menu_items
+        'menu_items': menu_items,
+        'error_message': None,  # No error message when it's a successful GET request
+        'show_modal': False  # Ensure modal doesn't show on GET request
     })
 
 
